@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Certification de Lecture - Ostad Saber</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #16213e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 450px; border: 1px solid #0f3460; }
+        h1 { color: #e94560; font-size: 22px; }
+        #timer { font-size: 60px; font-weight: bold; color: #00d2ff; margin: 20px 0; display: block; }
+        .input-group { margin-bottom: 20px; }
+        input { padding: 10px; border-radius: 5px; border: none; width: 80%; text-align: center; font-size: 16px; }
+        button { background: #e94560; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        #zone-lecture { display: none; }
+        #code-final { display: none; background: #0f3460; padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px dashed #00d2ff; color: #00d2ff; font-size: 20px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Système de Contrôle Saber</h1>
+        
+        <div id="zone-login">
+            <p>Entrez votre nom complet pour commencer :</p>
+            <input type="text" id="nomEleve" placeholder="Prénom Nom">
+            <br>
+            <button onclick="demarrerSession()">Démarrer la lecture</button>
+        </div>
+
+        <div id="zone-lecture">
+            <p>Session pour : <span id="affichageNom" style="color:#e94560"></span></p>
+            <span id="timer">30:00</span>
+            <p style="font-style: italic; color: #95a5a6;">La lecture est en cours... Ne fermez pas cette page.</p>
+            <div id="code-final"></div>
+        </div>
+    </div>
+
+    <script>
+        let secondesEcoulees = 0;
+        const dureeTotale = 1800; // 30 minutes
+        let nomGlobal = "";
+
+        function demarrerSession() {
+            nomGlobal = document.getElementById('nomEleve').value;
+            if (nomGlobal.length < 3) {
+                alert("Veuillez entrer un nom valide.");
+                return;
+            }
+            document.getElementById('zone-login').style.display = "none";
+            document.getElementById('zone-lecture').style.display = "block";
+            document.getElementById('affichageNom').innerText = nomGlobal;
+            
+            lancerChrono();
+        }
+
+        function lancerChrono() {
+            const chronometre = setInterval(() => {
+                secondesEcoulees++;
+                
+                let restant = dureeTotale - secondesEcoulees;
+                let min = Math.floor(restant / 60);
+                let sec = restant % 60;
+                document.getElementById('timer').innerText = (min < 10 ? "0"+min : min) + ":" + (sec < 10 ? "0"+sec : sec);
+
+                if (secondesEcoulees >= dureeTotale) {
+                    clearInterval(chronometre);
+                    genererCode();
+                }
+            }, 1000);
+        }
+
+        function genererCode() {
+            // Création d'un code secret basé sur le nom + date
+            let dateUnique = new Date().getDate();
+            let codeSecret = nomGlobal.substring(0,3).toUpperCase() + "-" + dateUnique + "-SABER-OK";
+            
+            document.getElementById('timer').innerText = "VÉRIFIÉ";
+            document.getElementById('timer').style.color = "#27ae60";
+            document.getElementById('code-final').style.display = "block";
+            document.getElementById('code-final').innerText = "CODE : " + codeSecret;
+            
+            alert("Félicitations " + nomGlobal + " ! Envoyez ce code à l'Ostad sur Preply.");
+        }
+    </script>
+
+</body>
+</html>
