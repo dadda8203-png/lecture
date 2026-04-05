@@ -1,18 +1,19 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Certification de Lecture - Ostad Saber</title>
+    <title>Certification de Lecture - Don Saber</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: #16213e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 450px; border: 1px solid #0f3460; }
-        h1 { color: #e94560; font-size: 22px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a2e; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .container { background: #16213e; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 600px; border: 1px solid #0f3460; }
+        h1 { color: #e94560; font-size: 22px; text-transform: uppercase; letter-spacing: 2px; }
         #timer { font-size: 60px; font-weight: bold; color: #00d2ff; margin: 20px 0; display: block; }
-        .input-group { margin-bottom: 20px; }
-        input { padding: 10px; border-radius: 5px; border: none; width: 80%; text-align: center; font-size: 16px; }
-        button { background: #e94560; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        input { padding: 12px; border-radius: 8px; border: 1px solid #0f3460; width: 80%; text-align: center; font-size: 16px; background: #1a1a2e; color: white; margin-bottom: 10px; }
+        button { background: #e94560; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #ff5e78; transform: translateY(-2px); }
         #zone-lecture { display: none; }
-        #code-final { display: none; background: #0f3460; padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px dashed #00d2ff; color: #00d2ff; font-size: 20px; font-family: monospace; }
+        #code-final { display: none; background: #0f3460; padding: 20px; border-radius: 10px; margin-top: 20px; border: 2px dashed #00d2ff; color: #00d2ff; font-size: 22px; font-family: monospace; font-weight: bold; }
+        .lecture-box { background: #1a2238; padding: 25px; border-radius: 12px; margin: 20px 0; border: 1px solid #3d4b6e; text-align: left; max-height: 400px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -28,37 +29,33 @@
         </div>
 
         <div id="zone-lecture">
-            <p>Session pour : <span id="affichageNom" style="color:#e94560"></span></p>
-            <span id="timer">30:00</span>
-            <div style="background: #1a2238; padding: 25px; border-radius: 12px; margin: 20px 0; border: 1px solid #3d4b6e; text-align: left; max-height: 500px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <h3 style="color: #e94560; border-bottom: 1px solid #e94560; padding-bottom: 10px;">Support de Lecture : L'Économie du Bonheur</h3>
-    
-    <p style="color: #ffffff; line-height: 1.8; font-size: 1.1em;">
-        </b> Peut-on réellement quantifier le bien-être ? Depuis quelques décennies, des économistes et des sociologues tentent de prouver que le Produit Intérieur Brut (PIB) n'est plus un indicateur suffisant pour mesurer la réussite d'une nation. Ils proposent une alternative : l'Indice de Bonheur Mondial.<br><br>
-        
-        <b>Le Paradoxe de l'Argent :</b> La question fondamentale est de savoir si l'augmentation des revenus se traduit systématiquement par un gain de satisfaction personnelle. Les études montrent que jusqu'à un certain seuil, l'argent réduit le stress lié aux besoins primaires. Cependant, une fois ce palier franchi, on observe une stagnation du bonheur. C'est ce qu'on appelle le « tapis roulant hédonique » : nous nous habituons rapidement à notre nouveau confort et en demandons toujours plus.<br><br>
-        
-        <b>Le Travail au XXIe Siècle :</b> Pour un étudiant de niveau B2, il est crucial de comprendre l'évolution du concept de "carrière". Aujourd'hui, les travailleurs ne cherchent plus seulement un salaire, mais une "quête de sens". Le sentiment d'utilité sociale devient un moteur plus puissant que les primes de fin d'année. L'autonomie, la reconnaissance et l'équilibre entre vie professionnelle et vie privée sont désormais les piliers de la fidélité en entreprise.<br><br>
-        
-        </b> L'avenir appartient aux sociétés qui sauront concilier performance économique et épanouissement humain. Le défi est immense, car il demande de repenser totalement nos systèmes d'éducation et de management.<br><br>
-        
-        <i style="color: #95a5a6;">Consignes pour la session :
-            <b> 1. Lisez attentivement<b></b>
-            <b> 2. Notez 5 mots de vocabulaire complexes.<b></b>
-            <b> 3. Préparez un résumé oral pour l'Ostad Saber.<b></b> i>
-    </p>
-</div>
+            <p>Session pour : <span id="affichageNom" style="color:#e94560; font-weight: bold;"></span></p>
+            <span id="timer">01:00</span>
+            
+            <div class="lecture-box">
+                <h3 style="color: #e94560; border-bottom: 1px solid #e94560; padding-bottom: 10px;">Support : L'Économie du Bonheur</h3>
+                <p style="color: #ffffff; line-height: 1.8; font-size: 1.1em;">
+                    <b>Introduction :</b> Peut-on réellement quantifier le bien-être ? Le PIB n'est plus suffisant...<br><br>
+                    <b>Le Paradoxe de l'Argent :</b> Jusqu'à un certain seuil, l'argent réduit le stress. Au-delà, c'est le « tapis roulant hédonique ».<br><br>
+                    <b>Le Travail :</b> La "quête de sens" devient le moteur principal au XXIe siècle.<br><br>
+                    <i style="color: #95a5a6;">Consignes : Lisez, notez 5 mots complexes et préparez votre résumé.</i>
+                </p>
+            </div>
+
+            <div id="code-final"></div>
+        </div>
     </div>
 
     <script>
         let secondesEcoulees = 0;
-        const dureeTotale = 1 * 60;
+        const dureeTotale = 60; // 60 secondes pour ton test
         let nomGlobal = "";
+        let chronometre;
 
         function demarrerSession() {
-            nomGlobal = document.getElementById('nomEleve').value;
+            nomGlobal = document.getElementById('nomEleve').value.trim();
             if (nomGlobal.length < 3) {
-                alert("Veuillez entrer un nom valide.");
+                alert("Veuillez entrer un nom valide (min. 3 caractères).");
                 return;
             }
             document.getElementById('zone-login').style.display = "none";
@@ -69,13 +66,15 @@
         }
 
         function lancerChrono() {
-            const chronometre = setInterval(() => {
+            chronometre = setInterval(() => {
                 secondesEcoulees++;
                 
                 let restant = dureeTotale - secondesEcoulees;
                 let min = Math.floor(restant / 60);
                 let sec = restant % 60;
-                document.getElementById('timer').innerText = (min < 10 ? "0"+min : min) + ":" + (sec < 10 ? "0"+sec : sec);
+                
+                document.getElementById('timer').innerText = 
+                    (min < 10 ? "0"+min : min) + ":" + (sec < 10 ? "0"+sec : sec);
 
                 if (secondesEcoulees >= dureeTotale) {
                     clearInterval(chronometre);
@@ -85,30 +84,19 @@
         }
 
         function genererCode() {
-            // Création d'un code secret basé sur le nom + date
             let dateUnique = new Date().getDate();
-            let codeSecret = nomGlobal.substring(0,3).toUpperCase() + "-" + dateUnique + "-SABER-OK";
+            let mois = new Date().getMonth() + 1;
+            let codeSecret = nomGlobal.substring(0,3).toUpperCase() + "-" + dateUnique + mois + "-SABER-OK";
             
             document.getElementById('timer').innerText = "VÉRIFIÉ";
             document.getElementById('timer').style.color = "#27ae60";
-            document.getElementById('code-final').style.display = "block";
-            document.getElementById('code-final').innerText = "CODE : " + codeSecret;
             
-            alert("Félicitations " + nomGlobal + " ! Envoyez ce code à l'Ostad sur Preply.");
+            const codeBox = document.getElementById('code-final');
+            codeBox.style.display = "block";
+            codeBox.innerText = "CODE : " + codeSecret;
+            
+            alert("Félicitations " + nomGlobal + " ! Copiez le code ci-dessous et envoyez-le à l'Ostad.");
         }
-        <br><br>
-<div style="text-align: center; padding: 20px; border-top: 1px dashed #3d4b6e;">
-    <button id="validerLecture" style="background: #e94560; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;">
-        Générer mon Certificat de Lecture
-    </button>
-</div>
-
-</div> <script>
-    document.getElementById('validerLecture').addEventListener('click', function() {
-        // Ta logique de certification ici
-        console.log("Certification en cours pour l'Ostad Saber...");
-        alert("Lecture validée ! Votre certificat est en cours de génération.");
-    });
     </script>
 
 </body>
