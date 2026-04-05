@@ -2,134 +2,447 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Certification Lexicale - Don Saber</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ostad Saber - Immersion Élite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #e94560; --blue: #38bdf8; --text: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; min-height: 100vh; margin: 0; }
-        .container { background: var(--card); padding: 40px; border-radius: 24px; width: 100%; max-width: 900px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
-        h1 { color: var(--accent); text-align: center; letter-spacing: 3px; text-transform: uppercase; font-size: 24px; }
-        #timer { font-size: 48px; font-weight: 800; color: var(--blue); text-align: center; display: block; margin: 10px 0; font-family: monospace; }
-        
-        .lecture-box { 
-            background: #0f172a; padding: 30px; border-radius: 15px; border: 1px solid #334155; 
-            line-height: 2; font-size: 1.2em; text-align: justify; max-height: 600px; overflow-y: auto; 
+        :root {
+            --bg-color: #0b0f19;
+            --glass-bg: rgba(20, 27, 45, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #e94560;
+            --accent-glow: rgba(233, 69, 96, 0.5);
+            --blue: #00d2ff;
+            --success: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
 
-        /* Style des mots cliquables */
+        /* Arrière-plan dynamique et immersif */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 210, 255, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(233, 69, 96, 0.05), transparent 25%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Effet Glassmorphism pour le conteneur principal */
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 50px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--text-main), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        /* Zone de Login ultra-sleek */
+        .input-group {
+            position: relative;
+            width: 70%;
+            margin: 0 auto 30px auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+            background: rgba(0,0,0,0.4);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent), #ff2a4b);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 20px var(--accent-glow);
+            letter-spacing: 1px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(233, 69, 96, 0.6);
+        }
+
+        /* Dashboard de lecture */
+        #zone-lecture { display: none; animation: fadeIn 1s ease-out; }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .student-badge {
+            background: rgba(255,255,255,0.05);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--blue);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            font-weight: 500;
+        }
+
+        #timer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-main);
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        /* Barre de progression */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--blue), var(--accent));
+            transition: width 1s linear;
+        }
+
+        /* Zone de texte premium */
+        .lecture-box {
+            font-size: 1.25rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            height: 50vh;
+            overflow-y: auto;
+            padding-right: 20px;
+            text-align: justify;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+
+        .lecture-box::-webkit-scrollbar { width: 6px; }
+        .lecture-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .paragraph { margin-bottom: 30px; }
+
+        /* Les Mots Interactifs (La Magie) */
         .clickable-word {
             color: var(--blue);
             cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            border-bottom: 1px solid transparent;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.2s;
+            border-bottom: 1px dashed rgba(0, 210, 255, 0.4);
+            padding: 0 2px;
         }
-        .clickable-word:hover { color: var(--accent); border-bottom-color: var(--accent); transform: translateY(-1px); }
 
-        #code-final { display: none; background: #064e3b; padding: 20px; border-radius: 12px; margin-top: 20px; border: 2px dashed #22c55e; color: #4ade80; text-align: center; font-family: monospace; font-size: 22px; }
+        .clickable-word:hover {
+            color: #fff;
+            background: rgba(0, 210, 255, 0.15);
+            border-radius: 4px;
+            border-bottom: 1px solid transparent;
+            text-shadow: 0 0 8px var(--blue);
+        }
+
+        /* Popup de définition ultra-pro */
+        #def-modal {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--blue);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
+            z-index: 100;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        #def-modal.show { bottom: 40px; }
         
-        /* Modal simple pour définition */
-        #def-modal { display: none; position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 100; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .def-icon {
+            background: var(--blue);
+            color: var(--bg-color);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        /* Animation de Fin Épique */
+        #code-final {
+            display: none;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            text-align: center;
+            animation: pulseSuccess 2s infinite;
+        }
+
+        .code-title { color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
+        .code-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--success); font-weight: 800; letter-spacing: 3px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes pulseSuccess { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Ostad Saber Academy : Immersion Totale</h1>
+<div class="container" id="main-card">
+    <h1>Ostad Saber</h1>
+    <div class="subtitle">Protocole d'Immersion Linguistique</div>
     
-    <div id="zone-login" style="text-align: center;">
-        <input type="text" id="nomEleve" placeholder="Votre nom" style="padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px; width: 60%;">
-        <br><button onclick="demarrer()" style="background: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;">Démarrer (1 min)</button>
+    <div id="zone-login">
+        <div class="input-group">
+            <input type="text" id="nomEleve" placeholder="Identification de l'élève (Nom complet)" autocomplete="off">
+        </div>
+        <button onclick="demarrer()">Démarrer l'Expertise</button>
     </div>
 
-    <div id="zone-lecture" style="display: none;">
-        <span id="timer">01:00</span>
+    <div id="zone-lecture">
+        <div class="dashboard-header">
+            <div class="student-badge">👤 <span id="labelNom"></span></div>
+            <div id="timer">30:00</div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
         <div class="lecture-box" id="content">
             </div>
-        <div id="code-final"></div>
+
+        <div id="code-final">
+            <div class="code-title">Session Validée - Code de Certification</div>
+            <div class="code-value" id="code-text"></div>
+            <p style="color: #94a3b8; font-size: 14px; margin-top: 15px;">Copiez ce code et envoyez-le à l'Ostad sur la messagerie.</p>
+        </div>
     </div>
 </div>
 
-<div id="def-modal"></div>
+<div id="def-modal">
+    <div class="def-icon">i</div>
+    <span id="def-text"></span>
+</div>
 
 <script>
-    const texteOriginal = `Quand Amine a décidé de quitter son village natal, il savait que sa vie allait changer profondément. Depuis son enfance, il vivait dans un endroit paisible où les journées se ressemblaient. Les gens se connaissaient tous, et il était difficile de garder un secret. Cette proximité avait ses avantages, mais aussi ses limites. Amine avait souvent l’impression de tourner en rond, comme s’il n’avançait pas vraiment.
-    Depuis plusieurs années, il rêvait de découvrir autre chose. Il voulait voir de nouveaux paysages, rencontrer de nouvelles personnes et surtout construire un avenir différent. Cependant, quitter son village n’était pas une décision facile. Sa famille y vivait, ses amis aussi, et chaque rue lui rappelait un souvenir.
-    Le jour de son départ, il s’est levé très tôt. Le soleil n’était pas encore complètement levé, et le village était silencieux. Il a regardé une dernière fois sa maison, les champs autour, et les montagnes au loin. À ce moment-là, il a ressenti un mélange étrange de tristesse et d’excitation.
-    Le voyage vers la ville a été long. Assis près de la fenêtre du bus, Amine observait les paysages défiler. Petit à petit, les champs ont disparu pour laisser place aux routes, puis aux bâtiments. Plus il s’approchait de la ville, plus il se rendait compte que sa vie ne serait plus jamais la même.
-    Quand il est enfin arrivé, il a été surpris par le bruit et le mouvement. Tout allait très vite. Les gens marchaient rapidement, les voitures klaxonnaient, et les lumières des magasins attiraient son attention. Pendant un instant, il s’est demandé s’il avait fait le bon choix.
-    Les premiers jours ont été difficiles. Trouver un logement, comprendre les transports, faire les courses… tout lui semblait compliqué. Dans son village, tout était simple. Ici, chaque petite tâche demandait de l’énergie et de l’organisation.
-    Le soir, dans son petit appartement, Amine ressentait souvent de la solitude. Il pensait à sa famille, aux repas partagés, aux discussions simples mais sincères. Il lui arrivait même de regretter son ancienne vie.
-    Mais Amine n’était pas venu en ville pour abandonner. Il savait que les débuts étaient toujours les plus difficiles. Alors, il a décidé de changer sa façon de penser. Au lieu de voir les obstacles comme des problèmes, il a commencé à les considérer comme des défis.
-    Quelques semaines plus tard, il a trouvé un emploi dans une entreprise locale. Le travail n’était pas facile, mais il lui permettait de gagner sa vie et de rencontrer des gens. Ses collègues venaient de différents horizons, et cela lui a permis de découvrir de nouvelles cultures et de nouvelles façons de penser.
-    Au début, il parlait peu. Il écoutait beaucoup, observait et essayait de comprendre. Petit à petit, il a commencé à participer aux conversations. Il faisait parfois des erreurs, mais cela ne l’empêchait pas de continuer.
-    Un jour, une collègue lui a proposé de sortir après le travail. Amine a hésité, car il n’avait pas l’habitude de ce genre d’activités. Finalement, il a accepté. Ils sont allés dans un café animé, puis ont marché dans les rues illuminées de la ville.
-    Cette soirée a été un moment important pour lui. Il s’est senti moins seul, plus intégré. Il a compris que pour s’adapter, il devait faire des efforts, mais aussi accepter l’aide des autres.
-    Avec le temps, Amine a développé une routine. Il se levait tôt, travaillait toute la journée, puis prenait du temps pour lui le soir. Parfois, il lisait, parfois il se promenait. Il aimait particulièrement aller dans un parc près de chez lui, où il pouvait se détendre et réfléchir.
-    Il a aussi décidé de suivre des cours du soir. Il voulait améliorer ses compétences et avoir plus d’opportunités à l'avenir. Même si cela demandait beaucoup d’efforts, il était fier de lui.
-    Petit à petit, la ville est devenue plus familière. Les rues qu’il ne connaissait pas sont devenues des chemins habituels. Les visages inconnus sont devenus des connaissances, puis des amis.
-    Bien sûr, tout n’était pas parfait. Il y avait encore des moments de doute, des journées difficiles, et parfois de la fatigue. Mais Amine avait changé. Il était devenu plus fort, plus indépendant.
-    Un jour, il est retourné dans son village pour rendre visite à sa famille. Tout semblait pareil, mais lui avait changé. Il regardait les choses différemment. Il appréciait toujours la tranquillité du village, mais il savait qu’il avait désormais sa place ailleurs.
-    Ses proches étaient fiers de lui. Ils voyaient qu’il avait grandi, non seulement en âge, mais aussi en expérience. Amine leur racontait ses aventures, ses difficultés, mais aussi ses réussites.
-    Avant de repartir, il s’est promené une dernière fois dans les rues de son enfance. Cette fois, il n’a pas ressenti de tristesse, mais plutôt de la reconnaissance. Ce lieu faisait partie de lui, mais il ne le définissait plus complètement.
-    De retour en ville, Amine s’est senti chez lui. Il avait trouvé un équilibre entre son passé et son présent. Il comprenait que changer de vie n’était pas seulement une question de lieu, mais aussi une transformation intérieure.
-    Aujourd’hui, il ne regrette pas son choix. Bien sûr, le chemin n’a pas été facile, mais il en valait la peine. Il a appris que le courage n’est pas l’absence de peur, mais la capacité d’avancer malgré elle.
-    Et même s’il ne sait pas exactement ce que l’avenir lui réserve, une chose est certaine : il est prêt à continuer à avancer.`;
+    // Le texte brut
+    const texteParagraphes = [
+        "Quand Amine a décidé de quitter son village natal, il savait que sa vie allait changer profondément. Depuis son enfance, il vivait dans un endroit paisible où les journées se ressemblaient. Les gens se connaissaient tous, et il était difficile de garder un secret. Cette proximité avait ses avantages, mais aussi ses limites. Amine avait souvent l’impression de tourner en rond, comme s’il n’avançait pas vraiment.",
+        "Depuis plusieurs années, il rêvait de découvrir autre chose. Il voulait voir de nouveaux paysages, rencontrer de nouvelles personnes et surtout construire un avenir différent. Cependant, quitter son village n’était pas une décision facile. Sa famille y vivait, ses amis aussi, et chaque rue lui rappelait un souvenir.",
+        "Le jour de son départ, il s’est levé très tôt. Le soleil n’était pas encore complètement levé, et le village était silencieux. Il a regardé une dernière fois sa maison, les champs autour, et les montagnes au loin. À ce moment-là, il a ressenti un mélange étrange de tristesse et d’excitation.",
+        "Le voyage vers la ville a été long. Assis près de la fenêtre du bus, Amine observait les paysages défiler. Petit à petit, les champs ont disparu pour laisser place aux routes, puis aux bâtiments. Plus il s’approchait de la ville, plus il se rendait compte que sa vie ne serait plus jamais la même.",
+        "Quand il est enfin arrivé, il a été surpris par le bruit et le mouvement. Tout allait très vite. Les gens marchaient rapidement, les voitures klaxonnaient, et les lumières des magasins attiraient son attention. Pendant un instant, il s’est demandé s’il avait fait le bon choix.",
+        "Les premiers jours ont été difficiles. Trouver un logement, comprendre les transports, faire les courses… tout lui semblait compliqué. Dans son village, tout était simple. Ici, chaque petite tâche demandait de l’énergie et de l’organisation.",
+        "Le soir, dans son petit appartement, Amine ressentait souvent de la solitude. Il pensait à sa famille, aux repas partagés, aux discussions simples mais sincères. Il lui arrivait même de regretter son ancienne vie.",
+        "Mais Amine n’était pas venu en ville pour abandonner. Il savait que les débuts étaient toujours les plus difficiles. Alors, il a décidé de changer sa façon de penser. Au lieu de voir les obstacles comme des problèmes, il a commencé à les considérer comme des défis.",
+        "Quelques semaines plus tard, il a trouvé un emploi dans une entreprise locale. Le travail n’était pas facile, mais il lui permettait de gagner sa vie et de rencontrer des gens. Ses collègues venaient de différents horizons, et cela lui a permis de découvrir de nouvelles cultures et de nouvelles façons de penser.",
+        "Au début, il parlait peu. Il écoutait beaucoup, observait et essayait de comprendre. Petit à petit, il a commencé à participer aux conversations. Il faisait parfois des erreurs, mais cela ne l’empêchait pas de continuer.",
+        "Un jour, une collègue lui a proposé de sortir après le travail. Amine a hésité, car il n’avait pas l’habitude de ce genre d’activités. Finalement, il a accepté. Ils sont allés dans un café animé, puis ont marché dans les rues illuminées de la ville.",
+        "Cette soirée a été un moment important pour lui. Il s’est senti moins seul, plus intégré. Il a compris que pour s’adapter, il devait faire des efforts, mais aussi accepter l’aide des autres.",
+        "Avec le temps, Amine a développé une routine. Il se levait tôt, travaillait toute la journée, puis prenait du temps pour lui le soir. Parfois, il lisait, parfois il se promenait. Il aimait particulièrement aller dans un parc près de chez lui, où il pouvait se détendre et réfléchir.",
+        "Il a aussi décidé de suivre des cours du soir. Il voulait améliorer ses compétences et avoir plus d’opportunités à l’avenir. Même si cela demandait beaucoup d’efforts, il était fier de lui.",
+        "Petit à petit, la ville est devenue plus familière. Les rues qu’il ne connaissait pas sont devenues des chemins habituels. Les visages inconnus sont devenus des connaissances, puis des amis.",
+        "Bien sûr, tout n’était pas parfait. Il y avait encore des moments de doute, des journées difficiles, et parfois de la fatigue. Mais Amine avait changé. Il était devenu plus fort, plus indépendant.",
+        "Un jour, il est retourné dans son village pour rendre visite à sa famille. Tout semblait pareil, mais lui avait changé. Il regardait les choses différemment. Il appréciait toujours la tranquillité du village, mais il savait qu’il avait désormais sa place ailleurs.",
+        "Ses proches étaient fiers de lui. Ils voyaient qu’il avait grandi, non seulement en âge, mais aussi en expérience. Amine leur racontait ses aventures, ses difficultés, mais aussi ses réussites.",
+        "Avant de repartir, il s’est promené une dernière fois dans les rues de son enfance. Cette fois, il n’a pas ressenti de tristesse, mais plutôt de la reconnaissance. Ce lieu faisait partie de lui, mais il ne le définissait plus complètement.",
+        "De retour en ville, Amine s’est senti chez lui. Il avait trouvé un équilibre entre son passé et son présent. Il comprenait que changer de vie n’était pas seulement une question de lieu, mais aussi une transformation intérieure.",
+        "Aujourd’hui, il ne regrette pas son choix. Bien sûr, le chemin n’a pas été facile, mais il en valait la peine. Il a appris que le courage n’est pas l’absence de peur, mais la capacité d’avancer malgré elle.",
+        "Et même s’il ne sait pas exactement ce que l’avenir lui réserve, une chose est certaine : il est prêt à continuer à avancer."
+    ];
 
-    // Base de données Lexicale Simplifiée (Niveau A0/A1)
+    // Dictionnaire B1+ vers A0/A1
     const dico = {
-        "profondément": "Beaucoup / Très fort", "paisible": "Calme / Sans bruit", "natal": "Où on est né", "limites": "Fin d'une chose / Obstacles", "proximité": "Fait d'être proche", "excitation": "Joie très forte", "défiler": "Passer devant les yeux", "disparu": "Qu'on ne voit plus", "instant": "Petit moment", "compliqué": "Pas simple / Difficile", "organisation": "Ordre / Préparation", "solitude": "Fait d'être seul", "regretter": "Être triste d'avoir perdu", "abandonner": "Arrêter / Dire 'c'est fini'", "considérer": "Regarder / Penser", "défis": "Tests / Choses à réussir", "horizons": "Origines / Lieux différents", "intégré": "Qui fait partie du groupe", "routine": "Habitude de chaque jour", "opportunités": "Chances de réussir", "indépendant": "Qui fait les choses seul", "tranquillité": "Calme total", "reconnaissance": "Dire merci à la vie", "transformation": "Grand changement", "courage": "Force d'avancer", "réserve": "Garder pour après"
+        "profondément": "De manière très forte", "paisible": "Calme, sans aucun bruit", "natal": "Le lieu où l'on est né", "limites": "Les obstacles, les fins d'une chose", "proximité": "Le fait d'être proche des autres", "excitation": "Une joie très forte et nerveuse", "défiler": "Passer rapidement devant les yeux", "disparu": "Qu'on ne peut plus voir", "instant": "Un très court moment (quelques secondes)", "compliqué": "Très difficile, pas simple", "organisation": "L'ordre, la préparation des choses", "solitude": "Le sentiment d'être tout seul", "regretter": "Être triste d'avoir perdu quelque chose", "abandonner": "Arrêter d'essayer, dire 'c'est fini'", "considérer": "Penser à, regarder comme", "défis": "Des tests, des choses difficiles à réussir", "horizons": "Des origines ou des lieux différents", "intégré": "Qui fait partie du groupe, accepté", "routine": "Les habitudes de chaque jour", "opportunités": "Des chances de réussir", "indépendant": "Qui fait les choses tout seul, libre", "tranquillité": "Le calme total", "reconnaissance": "Le fait de dire merci à la vie", "transformation": "Un très grand changement", "courage": "La force d'avancer malgré la peur", "réserve": "Ce qui est gardé pour plus tard"
     };
 
-    const motsExclus = ["le", "la", "les", "un", "une", "des", "de", "du", "et", "ou", "mais", "si", "il", "elle", "on", "se", "ce", "au", "aux", "est", "était"];
+    const motsExclus = ["le", "la", "les", "un", "une", "des", "de", "du", "et", "ou", "mais", "si", "il", "elle", "on", "se", "ce", "au", "aux", "est", "était", "pour", "dans", "sur", "avec", "sans", "sous"];
+
+    let timerTimeout;
 
     function genererTexte() {
-        const container = document.getElementById('content');
-        const mots = texteOriginal.split(/\b/);
-        let motsVus = new Set();
+        const contentDiv = document.getElementById('content');
+        let motsVusGlobalement = new Set();
 
-        mots.forEach(mot => {
-            const cleanWord = mot.toLowerCase().trim();
-            if (cleanWord.length > 3 && !motsExclus.includes(cleanWord) && dico[cleanWord] && !motsVus.has(cleanWord)) {
-                let span = document.createElement('span');
-                span.className = 'clickable-word';
-                span.innerText = mot;
-                span.onclick = () => montrerDef(cleanWord);
-                container.appendChild(span);
-                motsVus.add(cleanWord);
-            } else {
-                container.appendChild(document.createTextNode(mot));
-            }
+        texteParagraphes.forEach(para => {
+            let pTag = document.createElement('div');
+            pTag.className = 'paragraph';
+            
+            // Séparation intelligente gardant la ponctuation
+            const mots = para.split(/([\s,.;’'!?]+)/);
+            
+            mots.forEach(mot => {
+                const cleanWord = mot.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿñæœ]/g, '');
+                
+                if (cleanWord.length > 3 && !motsExclus.includes(cleanWord) && dico[cleanWord] && !motsVusGlobalement.has(cleanWord)) {
+                    let span = document.createElement('span');
+                    span.className = 'clickable-word';
+                    span.innerText = mot;
+                    // Affichage stylisé de la définition
+                    span.onclick = () => montrerDef(mot, dico[cleanWord]);
+                    pTag.appendChild(span);
+                    motsVusGlobalement.add(cleanWord);
+                } else {
+                    pTag.appendChild(document.createTextNode(mot));
+                }
+            });
+            contentDiv.appendChild(pTag);
         });
     }
 
-    function montrerDef(mot) {
+    function montrerDef(motOriginal, definition) {
         const modal = document.getElementById('def-modal');
-        modal.innerText = mot.toUpperCase() + " : " + dico[mot];
-        modal.style.display = 'block';
-        setTimeout(() => modal.style.display = 'none', 3000);
+        const texte = document.getElementById('def-text');
+        
+        texte.innerHTML = `<strong style="color:var(--blue)">${motOriginal.toUpperCase()}</strong> : ${definition}`;
+        modal.classList.add('show');
+        
+        // Cacher automatiquement après 4 secondes
+        clearTimeout(timerTimeout);
+        timerTimeout = setTimeout(() => {
+            modal.classList.remove('show');
+        }, 4000);
     }
 
     function demarrer() {
-        const nom = document.getElementById('nomEleve').value;
-        if(nom.length < 3) return alert("Nom svp");
+        const nom = document.getElementById('nomEleve').value.trim();
+        if(nom.length < 3) {
+            document.getElementById('nomEleve').style.borderColor = "var(--accent)";
+            return;
+        }
+        
         document.getElementById('zone-login').style.display = 'none';
         document.getElementById('zone-lecture').style.display = 'block';
+        document.getElementById('labelNom').innerText = nom;
+        
         genererTexte();
-        lancerChrono(nom);
+        
+        // ⚠️ ATTENTION OSTAD : J'ai mis 10 secondes pour que tu puisses tester. 
+        // Remplace le 10 par 1800 pour tes élèves (30 minutes).
+        lancerChrono(nom, 10); 
     }
 
-    function lancerChrono(nom) {
-        let sec = 60;
+    function lancerChrono(nom, tempsTotal) {
+        let sec = tempsTotal; 
+        const bar = document.getElementById('progressBar');
+        
         const interval = setInterval(() => {
             sec--;
-            document.getElementById('timer').innerText = "00:" + (sec < 10 ? "0"+sec : sec);
+            let m = Math.floor(sec / 60);
+            let s = sec % 60;
+            document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+            
+            // Mise à jour de la barre de progression
+            let pourcentage = ((tempsTotal - sec) / tempsTotal) * 100;
+            bar.style.width = pourcentage + "%";
+
             if(sec <= 0) {
                 clearInterval(interval);
-                document.getElementById('code-final').style.display = 'block';
-                document.getElementById('code-final').innerText = "CERTIFICAT : " + nom.substring(0,3).toUpperCase() + "-LEX-SABER";
+                terminerSession(nom);
             }
         }, 1000);
+    }
+
+    function terminerSession(nom) {
+        // Effets visuels de réussite
+        document.getElementById('timer').innerText = "VÉRIFIÉ";
+        document.getElementById('timer').style.color = "var(--success)";
+        document.getElementById('timer').style.textShadow = "0 0 20px rgba(16, 185, 129, 0.5)";
+        document.getElementById('progressBar').style.background = "var(--success)";
+        
+        // Réduction du texte pour focaliser sur le code
+        document.getElementById('content').style.opacity = "0.3";
+        document.getElementById('content').style.pointerEvents = "none";
+        
+        // Apparition du code VIP
+        const codeBox = document.getElementById('code-final');
+        const codeText = document.getElementById('code-text');
+        
+        // Génération d'un Hash premium (Ex: SABER-9A2-MAR)
+        const d = new Date();
+        const mois = d.toLocaleString('fr-FR', { month: 'short' }).toUpperCase().replace('.', '');
+        let hash = Math.random().toString(36).substring(2, 5).toUpperCase();
+        
+        codeText.innerText = `SABER-${hash}-${mois}`;
+        codeBox.style.display = 'block';
+        
+        // Défilement automatique vers le code
+        codeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 </script>
 </body>
