@@ -18,7 +18,6 @@
             --text-muted: #94a3b8;
         }
 
-        /* Arrière-plan dynamique et immersif */
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
@@ -34,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* Effet Glassmorphism pour le conteneur principal */
         .container {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -42,7 +40,7 @@
             border: 1px solid var(--glass-border);
             padding: 50px;
             border-radius: 30px;
-            width: 100%;
+            width: 90%;
             max-width: 900px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
             position: relative;
@@ -71,7 +69,6 @@
             text-transform: uppercase;
         }
 
-        /* Zone de Login ultra-sleek */
         .input-group {
             position: relative;
             width: 70%;
@@ -119,7 +116,6 @@
             box-shadow: 0 15px 25px rgba(233, 69, 96, 0.6);
         }
 
-        /* Dashboard de lecture */
         #zone-lecture { display: none; animation: fadeIn 1s ease-out; }
 
         .dashboard-header {
@@ -149,7 +145,6 @@
             text-shadow: 0 0 15px rgba(255,255,255,0.2);
         }
 
-        /* Barre de progression */
         .progress-container {
             width: 100%;
             height: 6px;
@@ -165,7 +160,6 @@
             transition: width 1s linear;
         }
 
-        /* Zone de texte premium */
         .lecture-box {
             font-size: 1.25rem;
             line-height: 1.9;
@@ -183,7 +177,6 @@
 
         .paragraph { margin-bottom: 30px; }
 
-        /* Les Mots Interactifs (La Magie) */
         .clickable-word {
             color: var(--blue);
             cursor: pointer;
@@ -202,16 +195,15 @@
             text-shadow: 0 0 8px var(--blue);
         }
 
-        /* Popup de définition ultra-pro */
         #def-modal {
             display: flex;
             align-items: center;
             gap: 15px;
             position: fixed;
-            bottom: -100px;
+            bottom: -150px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--blue);
@@ -220,9 +212,9 @@
             border-radius: 50px;
             box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
             z-index: 100;
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-size: 18px;
-            pointer-events: none;
+            max-width: 80%;
         }
 
         #def-modal.show { bottom: 40px; }
@@ -230,17 +222,15 @@
         .def-icon {
             background: var(--blue);
             color: var(--bg-color);
-            width: 30px;
+            min-width: 30px;
             height: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
             font-weight: bold;
-            font-family: monospace;
         }
 
-        /* Animation de Fin Épique */
         #code-final {
             display: none;
             background: rgba(16, 185, 129, 0.1);
@@ -283,8 +273,7 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <div class="lecture-box" id="content">
-            </div>
+        <div class="lecture-box" id="content"></div>
 
         <div id="code-final">
             <div class="code-title">Session Validée - Code de Certification</div>
@@ -300,9 +289,23 @@
 </div>
 
 <script>
-    // Le texte brut
+    // Configuration du dictionnaire (à compléter selon vos besoins)
+    const dico = {
+        "paradoxe": "Proposition qui va contre l'opinion commune, contradiction apparente.",
+        "indéniable": "Que l'on ne peut nier, qui est incontestable.",
+        "engendré": "Produit, causé, fait naître.",
+        "effréné": "Qui est sans retenue, sans mesure.",
+        "cognitive": "Qui concerne les processus de la connaissance et de la pensée.",
+        "idéalisée": "Présentée sous un aspect parfait, au-dessus de la réalité.",
+        "immédiateté": "Caractère de ce qui est sans délai, direct.",
+        "accrue": "Augmentée, devenue plus grande.",
+        "aspirations": "Désirs profonds de réaliser quelque chose de grand."
+    };
+
+    const motsExclus = ["dans", "avec", "pour", "mais", "pourrait"];
+
     const texteParagraphes = [
-        "À première vue, il semble évident que le progrès technologique a considérablement amélioré la vie humaine. En quelques décennies seulement, nous avons assisté à des transformations spectaculaires : communication instantanée, accès illimité à l’information, progrès médicaux impressionnants et amélioration globale des conditions de vie. Pourtant, malgré ces avancées, un sentiment étrange persiste chez de nombreuses personnes : celui d’un manque, d’une insatisfaction difficile à expliquer. Ce paradoxe mérite d’être analysé",
+        "À première vue, il semble évident que le progrès technologique a considérablement amélioré la vie humaine. En quelques décennies seulement, nous avons assisté à des transformations spectaculaires : communication instantanée, accès illimité à l’information, progrès médicaux impressionnants et amélioration globale des conditions de vie. Pourtant, malgré ces avancées, un sentiment étrange persiste chez de nombreuses personnes : celui d’un manque, d’une insatisfaction difficile à expliquer. Ce paradoxe mérite d’être analysé.",
         "D’une part, il est indéniable que la technologie a simplifié notre quotidien. Aujourd’hui, il suffit de quelques secondes pour envoyer un message à l’autre bout du monde, réserver un billet d’avion ou apprendre une nouvelle compétence grâce à des plateformes en ligne. Autrefois, ces actions nécessitaient du temps, des efforts considérables et parfois même des déplacements physiques. Cette rapidité a permis de gagner un temps précieux, que l’on pourrait théoriquement consacrer à des activités plus enrichissantes.",
         "Cependant, cette même rapidité a engendré une nouvelle forme de pression. En effet, dans un monde où tout va vite, il devient difficile de ralentir. Les individus se sentent souvent obligés d’être constamment productifs, connectés et disponibles. La frontière entre vie professionnelle et vie personnelle tend à disparaître, ce qui peut entraîner du stress et de l’épuisement. Ainsi, ce qui était censé nous libérer finit parfois par nous enfermer dans un rythme effréné.",
         "Par ailleurs, l’accès massif à l’information représente à la fois une richesse et un danger. D’un côté, il permet à chacun de s’informer, de se cultiver et de développer un esprit critique. De l’autre, il peut provoquer une surcharge cognitive. Face à une quantité infinie de contenus, il devient difficile de distinguer l’essentiel du superflu. De plus, la diffusion rapide de fausses informations complique encore davantage la situation, en semant le doute et la confusion.",
@@ -311,12 +314,10 @@
         "De plus, le progrès a modifié notre rapport au temps. Autrefois, certaines activités nécessitaient de la patience : attendre une lettre, cuisiner lentement, ou encore construire quelque chose de ses propres mains. Aujourd’hui, l’immédiateté est devenue la norme. Cette évolution a réduit notre capacité à tolérer l’attente et à apprécier les processus longs. Or, ces moments de lenteur sont souvent essentiels pour développer la réflexion, la créativité et la satisfaction personnelle.",
         "Il convient également de s’interroger sur l’impact du progrès sur les relations humaines. Bien que les outils numériques facilitent la communication, ils ne remplacent pas toujours la qualité des interactions en face à face. Les échanges virtuels peuvent parfois manquer de profondeur, car ils ne permettent pas de percevoir les émotions de manière aussi riche que dans une conversation directe. Ainsi, malgré une connectivité accrue, certains individus se sentent paradoxalement plus isolés.",
         "D’un point de vue psychologique, cette situation peut s’expliquer par le fait que les besoins fondamentaux de l’être humain n’ont pas changé. Au-delà du confort matériel, les individus recherchent du sens, des relations authentiques et un sentiment d’accomplissement. Or, le progrès technologique, bien qu’il réponde à de nombreux besoins pratiques, ne garantit pas la satisfaction de ces aspirations profondes.",
-        "ace à ce constat, certaines personnes choisissent de revenir à un mode de vie plus simple. On observe ainsi un intérêt croissant pour des activités telles que la méditation, le retour à la nature, ou encore la réduction de l’usage des technologies. Ces pratiques visent à rétablir un équilibre et à se reconnecter à l’essentiel. Elles témoignent d’un besoin de ralentir et de retrouver un certain contrôle sur son temps et son attention.",
-        
+        "Face à ce constat, certaines personnes choisissent de revenir à un mode de vie plus simple. On observe ainsi un intérêt croissant pour des activités telles que la méditation, le retour à la nature, ou encore la réduction de l’usage des technologies. Ces pratiques visent à rétablir un équilibre et à se reconnecter à l’essentiel. Elles témoignent d’un besoin de ralentir et de retrouver un certain contrôle sur son temps et son attention."
     ];
 
-    
-    let timerTimeout;
+    let modalTimeout;
 
     function genererTexte() {
         const contentDiv = document.getElementById('content');
@@ -326,22 +327,24 @@
             let pTag = document.createElement('div');
             pTag.className = 'paragraph';
             
-            // Séparation intelligente gardant la ponctuation
-            const mots = para.split(/([\s,.;’'!?]+)/);
+            // Regex améliorée pour scinder en gardant tout
+            const fragments = para.split(/(\s+|[,.;’'!?]+)/);
             
-            mots.forEach(mot => {
-                const cleanWord = mot.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿñæœ]/g, '');
+            fragments.forEach(frag => {
+                const cleanWord = frag.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿñæœ]/g, '');
                 
                 if (cleanWord.length > 3 && !motsExclus.includes(cleanWord) && dico[cleanWord] && !motsVusGlobalement.has(cleanWord)) {
                     let span = document.createElement('span');
                     span.className = 'clickable-word';
-                    span.innerText = mot;
-                    // Affichage stylisé de la définition
-                    span.onclick = () => montrerDef(mot, dico[cleanWord]);
+                    span.innerText = frag;
+                    span.onclick = (e) => {
+                        e.stopPropagation();
+                        montrerDef(frag, dico[cleanWord]);
+                    };
                     pTag.appendChild(span);
                     motsVusGlobalement.add(cleanWord);
                 } else {
-                    pTag.appendChild(document.createTextNode(mot));
+                    pTag.appendChild(document.createTextNode(frag));
                 }
             });
             contentDiv.appendChild(pTag);
@@ -355,12 +358,16 @@
         texte.innerHTML = `<strong style="color:var(--blue)">${motOriginal.toUpperCase()}</strong> : ${definition}`;
         modal.classList.add('show');
         
-        // Cacher automatiquement après 4 secondes
-        clearTimeout(timerTimeout);
-        timerTimeout = setTimeout(() => {
+        clearTimeout(modalTimeout);
+        modalTimeout = setTimeout(() => {
             modal.classList.remove('show');
-        }, 4000);
+        }, 5000);
     }
+
+    // Fermer la popup si on clique ailleurs
+    document.addEventListener('click', () => {
+        document.getElementById('def-modal').classList.remove('show');
+    });
 
     function demarrer() {
         const nom = document.getElementById('nomEleve').value.trim();
@@ -374,10 +381,7 @@
         document.getElementById('labelNom').innerText = nom;
         
         genererTexte();
-        
-        // ⚠️ ATTENTION OSTAD : J'ai mis 10 secondes pour que tu puisses tester. 
-        // Remplace le 10 par 1800 pour tes élèves (30 minutes).
-        lancerChrono(nom, 1800); 
+        lancerChrono(nom, 1800); // 30 minutes
     }
 
     function lancerChrono(nom, tempsTotal) {
@@ -390,7 +394,6 @@
             let s = sec % 60;
             document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
             
-            // Mise à jour de la barre de progression
             let pourcentage = ((tempsTotal - sec) / tempsTotal) * 100;
             bar.style.width = pourcentage + "%";
 
@@ -402,29 +405,22 @@
     }
 
     function terminerSession(nom) {
-        // Effets visuels de réussite
         document.getElementById('timer').innerText = "VÉRIFIÉ";
         document.getElementById('timer').style.color = "var(--success)";
-        document.getElementById('timer').style.textShadow = "0 0 20px rgba(16, 185, 129, 0.5)";
         document.getElementById('progressBar').style.background = "var(--success)";
         
-        // Réduction du texte pour focaliser sur le code
-        document.getElementById('content').style.opacity = "0.3";
+        document.getElementById('content').style.opacity = "0.2";
         document.getElementById('content').style.pointerEvents = "none";
         
-        // Apparition du code VIP
         const codeBox = document.getElementById('code-final');
         const codeText = document.getElementById('code-text');
         
-        // Génération d'un Hash premium (Ex: SABER-9A2-MAR)
         const d = new Date();
         const mois = d.toLocaleString('fr-FR', { month: 'short' }).toUpperCase().replace('.', '');
         let hash = Math.random().toString(36).substring(2, 5).toUpperCase();
         
         codeText.innerText = `SABER-${hash}-${mois}`;
         codeBox.style.display = 'block';
-        
-        // Défilement automatique vers le code
         codeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 </script>
