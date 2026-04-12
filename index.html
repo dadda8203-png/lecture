@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ostad Saber - Immersion Élite</title>
+    <title>Xling - Plateforme d'Immersion</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,608 +11,191 @@
             --glass-bg: rgba(20, 27, 45, 0.6);
             --glass-border: rgba(255, 255, 255, 0.08);
             --accent: #e94560;
-            --accent-glow: rgba(233, 69, 96, 0.5);
             --blue: #00d2ff;
             --success: #10b981;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
-            min-height: 100vh;
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 210, 255, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(233, 69, 96, 0.05), transparent 25%);
             color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            padding: 50px;
+            padding: 40px;
             border-radius: 30px;
             width: 90%;
-            max-width: 900px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
-            z-index: 10;
-            transition: all 0.5s ease;
+            max-width: 1000px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
 
-        h1 {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--text-main), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
+        h1 { text-align: center; letter-spacing: 4px; text-transform: uppercase; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
+        #zone-lecture { display: none; }
 
-        .input-group {
-            position: relative;
-            width: 70%;
-            margin: 0 auto 30px auto;
-        }
+        .input-group { text-align: center; margin-bottom: 30px; }
+        input { padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; width: 60%; font-size: 16px; text-align: center; }
 
-        input {
-            width: 100%;
-            padding: 18px 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.2);
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
+        button { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: 800; display: block; margin: 20px auto; transition: 0.3s; }
 
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-            background: rgba(0,0,0,0.4);
-        }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        #timer { font-family: 'JetBrains Mono'; font-size: 32px; }
 
-        button {
-            background: linear-gradient(135deg, var(--accent), #ff2a4b);
-            color: white;
-            border: none;
-            padding: 18px 45px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px var(--accent-glow);
-            letter-spacing: 1px;
-            display: block;
-            margin: 0 auto;
-        }
+        .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; }
+        .progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 1s linear; }
 
-        button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px rgba(233, 69, 96, 0.6);
-        }
+        .lecture-box { font-size: 1.2rem; line-height: 1.8; color: #cbd5e1; max-height: 60vh; overflow-y: auto; text-align: justify; padding-right: 15px; }
+        .paragraph { margin-bottom: 25px; }
 
-        #zone-lecture { display: none; animation: fadeIn 1s ease-out; }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .student-badge {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: var(--blue);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            font-weight: 500;
-        }
-
-        #timer {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 42px;
-            font-weight: 700;
-            color: var(--text-main);
-            text-shadow: 0 0 15px rgba(255,255,255,0.2);
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--blue), var(--accent));
-            transition: width 1s linear;
-        }
-
-        .lecture-box {
-            font-size: 1.25rem;
-            line-height: 1.9;
-            color: #cbd5e1;
-            height: 50vh;
-            overflow-y: auto;
-            padding-right: 20px;
-            text-align: justify;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) transparent;
-        }
-
-        .lecture-box::-webkit-scrollbar { width: 6px; }
-        .lecture-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-
-        .paragraph { margin-bottom: 30px; }
-
-        .clickable-word {
-            color: var(--blue);
-            cursor: pointer;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.2s;
-            border-bottom: 1px dashed rgba(0, 210, 255, 0.4);
-            padding: 0 2px;
-        }
-
-        .clickable-word:hover {
-            color: #fff;
-            background: rgba(0, 210, 255, 0.15);
-            border-radius: 4px;
-            border-bottom: 1px solid transparent;
-            text-shadow: 0 0 8px var(--blue);
-        }
-
-        #def-modal {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: fixed;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--blue);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 50px;
-            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
-            z-index: 100;
-            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 18px;
-            max-width: 80%;
-        }
-
-        #def-modal.show { bottom: 40px; }
-        
-        .def-icon {
-            background: var(--blue);
-            color: var(--bg-color);
-            min-width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            font-weight: bold;
-        }
-
-        #code-final {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid var(--success);
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 30px;
-            text-align: center;
-            animation: pulseSuccess 2s infinite;
-        }
-
-        .code-title { color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
-        .code-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--success); font-weight: 800; letter-spacing: 3px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes pulseSuccess { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-
+        #code-final { display: none; text-align: center; margin-top: 20px; padding: 20px; border: 2px solid var(--success); border-radius: 15px; background: rgba(16, 185, 129, 0.1); }
     </style>
 </head>
 <body>
 
-<div class="container" id="main-card">
+<div class="container">
     <h1>Ostad Saber</h1>
-    <div class="subtitle">Protocole d'Immersion Linguistique</div>
     
     <div id="zone-login">
         <div class="input-group">
-            <input type="text" id="nomEleve" placeholder="Identification de l'élève (Nom complet)" autocomplete="off">
+            <input type="text" id="nomEleve" placeholder="Entrez votre nom complet">
         </div>
-        <button onclick="demarrer()">Démarrer l'Expertise</button>
+        <button onclick="demarrer()">Lancer la session quotidienne</button>
     </div>
 
     <div id="zone-lecture">
         <div class="dashboard-header">
-            <div class="student-badge">👤 <span id="labelNom"></span></div>
+            <div style="color: var(--blue)">Session de : <span id="labelNom"></span></div>
             <div id="timer">30:00</div>
         </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
+        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
         <div class="lecture-box" id="content"></div>
-
         <div id="code-final">
-            <div class="code-title">Session Validée - Code de Certification</div>
-            <div class="code-value" id="code-text"></div>
-            <p style="color: #94a3b8; font-size: 14px; margin-top: 15px;">Copiez ce code et envoyez-le à l'Ostad sur la messagerie.</p>
+            <div style="color: var(--success); font-weight: 800; margin-bottom: 10px;">TRAVAIL VÉRIFIÉ</div>
+            <div id="code-text" style="font-family: 'JetBrains Mono'; font-size: 24px; color: #fff;"></div>
         </div>
     </div>
 </div>
 
-<div id="def-modal">
-    <div class="def-icon">i</div>
-    <span id="def-text"></span>
-</div>
-
 <script>
-    // --- LE CATALOGUE DU GOUVERNEUR (Ajoute tes leçons ici) ---
+    // --- CATALOGUE DES 30 JOURS (À REMPLIR) ---
+    // Ajoute tes textes entre les crochets [] de chaque objet.
     const catalogueLecons = [
-    {
-        "texte": [
-            "L'évolution des structures urbaines au cours du dernier siècle a radicalement transformé non seulement notre paysage visuel, mais aussi la substance même de nos interactions sociales. L'étalement urbain, ce phénomène tentaculaire qui voit les villes s'étendre bien au-delà de leurs limites historiques, a créé des zones résidentielles périphériques dépourvues de vie propre. Cette fragmentation de l'espace oblige les citoyens à entreprendre des déplacements quotidiens fastidieux, souvent synonymes de stress et de déconnexion. Jusqu’alors, le modèle prédominant reposait sur une segmentation rigide des fonctions : on travaille au centre, on dort en banlieue. Cependant, cette configuration est devenue obsolète face aux impératifs écologiques actuels. La dépendance accrue aux énergies fossiles pour ces trajets incessants est un poids mort pour toute velléité de durabilité.",
-            "L'alternative qui émerge, souvent désignée sous le terme de « ville du quart d'heure », n'est pas une simple utopie architecturale, mais un changement de paradigme nécessaire. L'idée est de réhabiliter la proximité : faire en sorte que chaque habitant puisse subvenir à ses besoins essentiels — éducation, soins, commerces, culture — dans un rayon de quinze minutes de marche ou de vélo. Ce modèle impose de repenser les friches industrielles, ces cicatrices du passé productiviste, pour les transformer en espaces de vie multifonctionnels. Végétaliser les façades et restreindre l’usage de la voiture individuelle ne sont que la partie émergée de l'iceberg. Le véritable défi consiste à redonner une âme à des quartiers qui ont été conçus comme de simples dortoirs, en favorisant une mixité sociale et générationnelle souvent absente des développements récents.",
-            "Toutefois, ce renouveau urbain ne va pas sans heurts. Un obstacle majeur se dresse : la gentrification. Ce processus, par lequel l'amélioration d'un quartier entraîne une hausse vertigineuse des prix de l'immobilier, finit paradoxalement par exclure les populations les plus vulnérables. Comment créer une ville durable sans qu'elle ne devienne un sanctuaire pour une élite privilégiée ? C’est ici que réside le dilemme de l’urbanisme moderne. Il ne suffit pas de planter des arbres ou de construire des pistes cyclables ; il faut garantir une équité sociale qui permette à chacun, peu importe ses revenus, de bénéficier de cette nouvelle qualité de vie. La ville de demain sera soit inclusive, soit elle ne sera qu'une extension sophistiquée de nos inégalités actuelles, exacerbées par une crise climatique qui ne fera aucun cadeau aux retardataires.",
-            "En conclusion, la métamorphose de nos cités est un impératif qui dépasse la simple esthétique ou le confort immédiat. C'est une question de survie collective et de cohésion. En réinvestissant le local, en limitant l'expansion incontrôlée et en luttant contre la spéculation foncière, nous pouvons espérer bâtir des refuges de résilience. Le chemin est encore long, et les résistances au changement, qu'elles soient politiques ou individuelles, sont nombreuses. Pourtant, l'urgence de la situation nous impose de ne plus considérer l'urbanisme comme une suite de décisions techniques, mais comme un véritable projet de société, où l'humain et son environnement retrouvent enfin un équilibre tangible et pérenne."
-        ],
-        "definitions": {
-            "tentaculaire": "qui s'étend de manière envahissante et désordonnée",
-            "fastidieux": "qui cause de l'ennui ou de la fatigue par sa longueur et sa monotonie",
-            "obsolète": "qui n'est plus en usage, dépassé par le progrès",
-            "velléité": "intention de faire quelque chose qui n'aboutit pas à une décision ferme",
-            "paradigme": "modèle de pensée ou système de représentation du monde",
-            "friches industrielles": "terrains abandonnés après la fin d'une activité industrielle",
-            "gentrification": "transformation d'un quartier populaire en quartier plus bourgeois et coûteux",
-            "équité": "principe de justice qui tient compte des particularités de chacun pour établir une égalité réelle",
-            "exacerbées": "rendues plus intenses, plus graves ou plus aiguës",
-            "pérenne": "qui dure très longtemps ou qui est permanent"
-        }
-    },
-    {
-        "texte": [
-            "L’irruption massive de l’intelligence artificielle générative dans notre quotidien a provoqué un séisme dont nous commençons à peine à mesurer l’ampleur des répliques. Dans le domaine de la création, ce basculement est vécu soit comme une aubaine technologique, soit comme une menace existentielle pour l’esprit humain. Historiquement, l’art était perçu comme une émanation tangible de la subjectivité de l’auteur, le fruit d’un long processus d'apprentissage et de souffrance. Or, lorsqu'un algorithme produit une œuvre d'une complexité inouïe en quelques fractions de seconde, les concepts de mérite et d’originalité deviennent lancinants. Nous nous trouvons à la croisée des chemins, où la machine semble mimer la conscience au point de rendre la distinction entre l'artificiel et le vivant de plus en plus ténue.",
-            "Le cœur du problème réside dans ce que les experts nomment le « plagiat automatisé ». Pour apprendre, ces modèles numériques s'abreuvent de bases de données colossales, ingérant des siècles de production humaine sans jamais demander de consentement. Cette opacité occulte le travail laborieux des créateurs originaux, dont les œuvres sont décomposées en statistiques pour servir de matière première à la machine. Pourtant, condamner l'IA sans nuance serait une erreur historique. Tout comme l'invention de la photographie a forcé la peinture à se réinventer vers l'abstraction, l'IA pourrait contraindre les créateurs d'aujourd'hui à chercher leur valeur ajoutée ailleurs que dans la simple exécution technique. L'effort se déplace : il ne s'agit plus seulement de savoir faire, mais de savoir diriger.",
-            "Le rôle de l'humain évolue ainsi vers celui de curateur ou de chef d'orchestre. La compétence primordiale n'est plus la dextérité manuelle ou la connaissance encyclopédique, mais la maîtrise du langage et de l'intention. Savoir formuler une requête, orienter l'algorithme vers une vision esthétique précise et trier les résultats devient le nouveau travail de l'artiste. In fine, l'intelligence artificielle ne remplacera probablement pas l'art, mais elle redéfinira radicalement ce que signifie « être un auteur ». L'angoisse de la page blanche disparaît au profit d'une surabondance d'options, où le discernement devient la vertu cardinale. Il s'agit d'une mutation ontologique profonde : nous passons d'une ère de la rareté de la création à une ère de la sélection infinie.",
-            "Au-delà des aspects purement esthétiques, cette révolution soulève des questions éthiques fondamentales sur l'avenir de notre intelligence collective. Si nous déléguons nos capacités de réflexion et de création à des outils automatisés, ne risquons-nous pas un appauvrissement de notre propre pensée ? La facilité d'accès à des contenus générés instantanément pourrait, à terme, atrophier notre curiosité et notre sens critique. L'enjeu est donc de domestiquer ces technologies sans leur céder notre autonomie intellectuelle. L'intelligence artificielle doit rester un levier de croissance pour l'imaginaire humain, et non un substitut. C'est dans cette collaboration hybride, entre la puissance de calcul brute et l'intuition sensible, que s'écrira le prochain chapitre de notre civilisation technologique."
-        ],
-        "definitions": {
-            "irruption": "entrée soudaine et imprévue d'un élément dans un milieu",
-            "tangible": "dont la réalité est évidente, que l'on peut percevoir clairement",
-            "lancinants": "qui tourmentent l'esprit de manière persistante et douloureuse",
-            "ténue": "très mince, très fine, presque imperceptible",
-            "s'abreuvent": "se nourrir ou puiser ses sources abondamment dans quelque chose",
-            "occulte": "cache délibérément, dissimule à la vue ou à la compréhension",
-            "dextérité": "adresse manuelle ou intellectuelle dans l'exécution de quelque chose",
-            "ontologique": "qui concerne l'être, l'existence et l'essence même des choses",
-            "atrophier": "causer une diminution de volume ou de force par manque d'usage",
-            "hybride": "qui provient du mélange de deux espèces ou de deux systèmes différents"
-        }
-    },
-    {
-        "texte": [
-            "La discipline est la clé de toute réussite. Un homme sans organisation est comme un navire sans boussole, errant au gré des courants sans jamais atteindre son port de destination. Dans un monde saturé de distractions numériques et de sollicitations constantes, la capacité à maintenir une ligne de conduite rigoureuse devient un avantage comparatif majeur.",
-            "L'autodiscipline ne doit pas être perçue comme une contrainte privatrice de liberté, mais bien au contraire comme l'outil suprême de l'émancipation. En maîtrisant les outils modernes, notamment les systèmes de gestion du temps et les flux d'information, on devient maître de son propre destin au lieu de subir les priorités d'autrui.",
-            "Cette rigueur intellectuelle permet d'approfondir des sujets complexes, là où la majorité se contente d'un survol superficiel. Le succès n'est que la cristallisation d'efforts quotidiens, souvent invisibles et ingrats, mais dont la répétition finit par produire des résultats hors du commun.",
-            "Pour atteindre ce niveau de maîtrise, il est impératif d'instaurer des routines solides qui protègent notre capital attentionnel. Celui qui sait dompter ses impulsions immédiates au profit d'objectifs à long terme possède une force de caractère qui surpasse le simple talent naturel. En somme, la persévérance est le moteur, et l'organisation en est le gouvernail.",
-            "Finalement, la réussite durable repose sur une architecture de vie équilibrée. Il ne s'agit pas de travailler plus, mais de travailler mieux, en alignant ses actions avec ses valeurs fondamentales. C'est dans ce silence de la concentration et cette clarté de l'ordre que naissent les plus grandes réalisations de l'esprit humain."
-        ],
-        "definitions": {
-            "discipline": "self-control and organization",
-            "réussite": "success",
-            "boussole": "compass",
-            "maîtrise": "mastery",
-            "errant": "wandering without a fixed destination",
-            "émancipation": "the process of being set free from restrictions",
-            "ingrats": "thankless or unrewarding",
-            "gouvernail": "rudder or steering wheel of a ship"
-        }
-    },
-    {
-        "texte": [
-            "Le voyage est une métaphore de la découverte de soi, une rupture nécessaire avec le confort sclérosant de nos habitudes quotidiennes. S'immerger dans une culture étrangère, c'est accepter de perdre ses repères pour mieux se reconstruire. Cette confrontation avec l'inconnu agit comme un catalyseur de maturité, forçant l'individu à faire preuve d'une adaptabilité exemplaire.",
-            "Chaque destination visitée est une leçon d'humilité. Face à l'immensité des paysages ou à la richesse des traditions séculaires, nos préoccupations habituelles semblent soudainement dérisoires. Voyager, ce n'est pas seulement accumuler des images, c'est avant tout transformer son regard sur le monde et sur les autres.",
-            "Les barrières linguistiques et les malentendus culturels, loin d'être des obstacles insurmontables, sont autant d'occasions de pratiquer l'empathie et la patience. C'est dans l'effort de communication que se tissent des liens authentiques, par-delà les préjugés et les stéréotypes que nous transportons inévitablement dans nos bagages.",
-            "À l'heure du tourisme de masse, il devient crucial de redéfinir le voyage comme un acte conscient et respectueux. Privilégier la lenteur, l'échange véritable et la préservation de l'environnement local est un impératif éthique. Le véritable explorateur ne cherche pas à conquérir un espace, mais à se laisser transformer par lui, en toute conscience de sa fragilité.",
-            "Au retour, le voyageur n'est plus la même personne qu'au départ. La richesse intérieure acquise au fil des rencontres et des péripéties constitue un trésor inaliénable. Le voyage est ainsi une éducation permanente, une école de la vie qui nous enseigne que la diversité est la plus grande richesse de l'humanité, et que l'ouverture d'esprit est la clé d'un monde plus serein."
-        ],
-        "definitions": {
-            "sclérosant": "hardening or paralyzing, preventing evolution",
-            "repères": "landmarks or reference points",
-            "catalyseur": "an agent that provokes or speeds up a significant change",
-            "séculaires": "centuries old",
-            "dérisoires": "insignificant or ridiculous",
-            "empathie": "the ability to understand and share the feelings of others",
-            "péripéties": "unexpected turns of events or adventures",
-            "inaliénable": "that cannot be taken away or given away"
-        }
-    },
-    {
-        "texte": [
-            "La quête de l'excellence académique et professionnelle ne saurait se résumer à une simple accumulation de connaissances théoriques ; elle exige une architecture mentale rigoureuse et une discipline de fer. Dans le paysage contemporain, marqué par une volatilité sans précédent, la capacité d'un individu à s'auto-organiser devient le rempart ultime contre l'obsolescence. Un homme sans organisation est comme un navire sans boussole, livré aux vents impétueux du hasard, incapable de maintenir un cap cohérent vers ses ambitions les plus nobles.",
-            "L'acquisition d'une méthodologie de travail structurée permet de transcender les limites de l'intelligence brute. En maîtrisant les outils modernes, tant technologiques que cognitifs, on devient maître de son propre destin, transformant chaque obstacle en un jalon vers la réussite. Cette maîtrise ne s'acquiert pas par des coups d'éclat sporadiques, mais par la répétition patiente et méthodique de gestes précis, une ascèse quotidienne qui forge le caractère autant que l'esprit.",
-            "Cependant, cette rigueur ne doit pas être confondue avec une rigidité stérile. L'organisation véritable est celle qui offre la liberté de l'improvisation calculée. En sécurisant les fondations de son activité par une gestion irréprochable du temps et des ressources, l'individu dégage l'espace nécessaire à l'innovation et à la créativité. La discipline n'est pas une fin en soi, mais le moteur de l'émancipation intellectuelle, permettant de s'affranchir de la tyrannie de l'urgence pour se consacrer à l'essentiel.",
-            "Il est également crucial de souligner que la discipline personnelle est le socle de toute intégrité professionnelle. Celui qui sait se commander à lui-même est naturellement plus apte à diriger des projets d'envergure ou à transmettre son savoir avec autorité. Dans l'enseignement comme dans les affaires, la crédibilité repose sur cette cohérence absolue entre la pensée organisée et l'action disciplinée. C'est ici que se dessine la frontière entre l'amateurisme dilettante et le professionnalisme d'élite.",
-            "Enfin, la réussite, lorsqu'elle est bâtie sur une telle organisation, possède une dimension pérenne. Elle n'est plus le fruit d'une conjoncture favorable, mais le résultat logique d'un système optimisé. En cultivant cette exigence envers soi-même, on développe une résilience qui permet de traverser les crises avec une sérénité stoïcienne. La discipline est, en dernière analyse, l'expression la plus pure de notre volonté de puissance et de notre respect pour l'œuvre que nous accomplissons."
-        
-       ],
-            }
-    },
-    {
-        "texte": [
-            "Le monde de la finance et de l'investissement représente aujourd'hui un territoire d'exploration complexe, où la sagesse historique se heurte à la rapidité fulgurante des algorithmes de marché. Pour l'investisseur avisé, la patience est une vertu cardinale, souvent plus rémunératrice que l'agitation fébrile des spéculateurs de court terme. Comprendre les mécanismes de la croissance économique exige une vision panoramique, capable de distinguer le signal du bruit dans un flux d'informations incessant.",
-            "L'indépendance financière ne s'obtient pas par la chance, mais par une stratégie d'allocation d'actifs méticuleuse. En diversifiant ses placements, l'individu se prémunit contre les aléas sectoriels et construit un patrimoine capable de résister aux tempêtes inflationnistes. Cette approche rationnelle nécessite une éducation constante : l'apprentissage des indicateurs macroéconomiques, de la psychologie des marchés et de la gestion des risques devient une nécessité vitale pour quiconque aspire à la liberté.",
-            "Toutefois, l'investissement n'est pas une science exacte ; c'est un art de la probabilité. Chaque décision comporte une part d'incertitude que seul un esprit discipliné peut tempérer par une analyse rigoureuse. L'erreur la plus commune consiste à céder à l'instinct grégaire, ce mouvement de foule qui pousse à acheter au sommet de l'euphorie et à vendre au creux du désespoir. La maîtrise de ses émotions est donc le premier capital à protéger pour garantir la viabilité de ses projets à long terme.",
-            "Dans cette quête, les outils numériques offrent une puissance de calcul inédite, permettant d'automatiser certaines tâches ingrates et d'optimiser les rendements. Néanmoins, l'outil ne remplace jamais le jugement. L'investisseur moderne doit rester le pilote de sa propre stratégie, utilisant la technologie pour affiner ses prévisions sans jamais lui déléguer sa responsabilité éthique ou financière. La transparence et l'intégrité sont les piliers sur lesquels repose la confiance des marchés et des partenaires.",
-            "In fine, la gestion du patrimoine est une métaphore de la gestion de la vie elle-même. Elle demande de la prévoyance, de la rigueur et une capacité à se projeter dans un futur lointain. En bâtissant des sources de revenus passifs, on ne cherche pas seulement l'accumulation de richesses, mais la conquête du temps — ce bien le plus précieux et le plus rare. C'est dans cet équilibre entre ambition matérielle et sérénité intellectuelle que se trouve la véritable définition de la prospérité."
-        
-         ],
-            }
-    },
-    {
-        "texte": [
-            "La quête de l'excellence académique et professionnelle ne saurait se résumer à une simple accumulation de connaissances théoriques ; elle exige une architecture mentale rigoureuse et une discipline de fer. Dans le paysage contemporain, marqué par une volatilité sans précédent, la capacité d'un individu à s'auto-organiser devient le rempart ultime contre l'obsolescence. Un homme sans organisation est comme un navire sans boussole, livré aux vents impétueux du hasard, incapable de maintenir un cap cohérent vers ses ambitions les plus nobles.",
-            "L'acquisition d'une méthodologie de travail structurée permet de transcender les limites de l'intelligence brute. En maîtrisant les outils modernes, tant technologiques que cognitifs, on devient maître de son propre destin, transformant chaque obstacle en un jalon vers la réussite. Cette maîtrise ne s'acquiert pas par des coups d'éclat sporadiques, mais par la répétition patiente et méthodique de gestes précis, une ascèse quotidienne qui forge le caractère autant que l'esprit.",
-            "Cependant, cette rigueur ne doit pas être confondue avec une rigidité stérile. L'organisation véritable est celle qui offre la liberté de l'improvisation calculée. En sécurisant les fondations de son activité par une gestion irréprochable du temps et des ressources, l'individu dégage l'espace nécessaire à l'innovation et à la créativité. La discipline n'est pas une fin en soi, mais le moteur de l'émancipation intellectuelle, permettant de s'affranchir de la tyrannie de l'urgence pour se consacrer à l'essentiel.",
-            "Il est également crucial de souligner que la discipline personnelle est le socle de toute intégrité professionnelle. Celui qui sait se commander à lui-même est naturellement plus apte à diriger des projets d'envergure ou à transmettre son savoir avec autorité. Dans l'enseignement comme dans les affaires, la crédibilité repose sur cette cohérence absolue entre la pensée organisée et l'action disciplinée. C'est ici que se dessine la frontière entre l'amateurisme dilettante et le professionnalisme d'élite.",
-            "Enfin, la réussite, lorsqu'elle est bâtie sur une telle organisation, possède une dimension pérenne. Elle n'est plus le fruit d'une conjoncture favorable, mais le résultat logique d'un système optimisé. En cultivant cette exigence envers soi-même, on développe une résilience qui permet de traverser les crises avec une sérénité stoïcienne. La discipline est, en dernière analyse, l'expression la plus pure de notre volonté de puissance et de notre respect pour l'œuvre que nous accomplissons."
-             ],
-            }
-            {
-            },
-        "texte": [
-            "Le monde de la finance et de l'investissement représente aujourd'hui un territoire d'exploration complexe, où la sagesse historique se heurte à la rapidité fulgurante des algorithmes de marché. Pour l'investisseur avisé, la patience est une vertu cardinale, souvent plus rémunératrice que l'agitation fébrile des spéculateurs de court terme. Comprendre les mécanismes de la croissance économique exige une vision panoramique, capable de distinguer le signal du bruit dans un flux d'informations incessant.",
-            "L'indépendance financière ne s'obtient pas par la chance, mais par une stratégie d'allocation d'actifs méticuleuse. En diversifiant ses placements, l'individu se prémunit contre les aléas sectoriels et construit un patrimoine capable de résister aux tempêtes inflationnistes. Cette approche rationnelle nécessite une éducation constante : l'apprentissage des indicateurs macroéconomiques, de la psychologie des marchés et de la gestion des risques devient une nécessité vitale pour quiconque aspire à la liberté.",
-            "Toutefois, l'investissement n'est pas une science exacte ; c'est un art de la probabilité. Chaque décision comporte une part d'incertitude que seul un esprit discipliné peut tempérer par une analyse rigoureuse. L'erreur la plus commune consiste à céder à l'instinct grégaire, ce mouvement de foule qui pousse à acheter au sommet de l'euphorie et à vendre au creux du désespoir. La maîtrise de ses émotions est donc le premier capital à protéger pour garantir la viabilité de ses projets à long terme.",
-            "Dans cette quête, les outils numériques offrent une puissance de calcul inédite, permettant d'automatiser certaines tâches ingrates et d'optimiser les rendements. Néanmoins, l'outil ne remplace jamais le jugement. L'investisseur moderne doit rester le pilote de sa propre stratégie, utilisant la technologie pour affiner ses prévisions sans jamais lui déléguer sa responsabilité éthique ou financière. La transparence et l'intégrité sont les piliers sur lesquels repose la confiance des marchés et des partenaires.",
-            "In fine, la gestion du patrimoine est une métaphore de la gestion de la vie elle-même. Elle demande de la prévoyance, de la rigueur et une capacité à se projeter dans un futur lointain. En bâtissant des sources de revenus passifs, on ne cherche pas seulement l'accumulation de richesses, mais la conquête du temps — ce bien le plus précieux et le plus rare. C'est dans cet équilibre entre ambition matérielle et sérénité intellectuelle que se trouve la véritable définition de la prospérité."
-             ],
-        }
-            {
-            },
-    {
-        "texte": [
-            "La discipline est la clé de toute réussite. Un homme sans organisation est comme un navire sans boussole, errant au gré des courants sans jamais atteindre son port de destination.",
-            "En maîtrisant les outils modernes, notamment les systèmes de gestion du temps et les flux d'information, on devient maître de son propre destin au lieu de subir les priorités d'autrui.",
-            "L'autodiscipline ne doit pas être perçue comme une contrainte privatrice de liberté, mais bien au contraire comme l'outil suprême de l'émancipation intellectuelle et professionnelle.",
-            "Cette rigueur permet d'approfondir des sujets complexes, là où la majorité se contente d'un survol superficiel, garantissant ainsi une expertise rare et valorisée sur le marché.",
-            "Le succès durable n'est que la cristallisation d'efforts quotidiens, souvent invisibles et ingrats, dont la répétition méthodique finit par produire des résultats hors du commun."
-        ]
-            }
-    },
-    {
-        "texte": [
-            "L'expansion tentaculaire des métropoles modernes soulève des interrogations cruciales sur notre capacité à concilier le confort citadin avec les impératifs écologiques pressants.",
-            "Le modèle prédominant de l'étalement urbain, reposant sur une segmentation rigide des espaces de vie, a engendré une dépendance accrue aux énergies fossiles et aux longs trajets.",
-            "Une alternative émerge avec la « ville du quart d'heure », concept qui aspire à transformer l'expérience urbaine en rendant les services essentiels accessibles à pied ou à vélo.",
-            "Réhabiliter les friches industrielles et végétaliser les façades sont autant de défis que les municipalités doivent relever pour endiguer efficacement le réchauffement climatique.",
-            "Le véritable enjeu réside dans l'équilibre fragile entre la durabilité environnementale et l'équité sociale, afin d'éviter que l'écologie ne devienne un luxe réservé à une élite."
-        ]
-            }
-    },
-    {
-        "texte": [
-            "L’irruption massive de l’intelligence artificielle générative a provoqué un séisme intellectuel dont nous commençons à peine à mesurer l’ampleur des répliques systémiques.",
-            "Dans le domaine de la création, ce basculement est vécu soit comme une aubaine technologique majeure, soit comme une menace existentielle pour l’esprit humain original.",
-            "Historiquement, l’art était perçu comme une émanation tangible de la subjectivité de l’auteur, le fruit d’un long processus d'apprentissage parsemé de doutes et de recherches.",
-            "Lorsqu'un algorithme produit une œuvre d'une complexité inouïe en quelques secondes, les concepts de mérite personnel et d'originalité deviennent soudainement lancinants.",
-            "L'effort se déplace désormais : il ne s'agit plus seulement de savoir exécuter une tâche technique, mais de savoir diriger la machine avec une intention artistique claire."
-        ]
-            }
-    },
-    {
-        "texte": [
-            "L'indépendance financière ne s'obtient pas par le fruit du hasard, mais par une stratégie d'allocation d'actifs méticuleuse et une vision à long terme des cycles économiques.",
-            "En diversifiant ses placements, notamment via des fonds indiciels, l'individu se prémunit contre les aléas sectoriels et construit un patrimoine capable de résister à l'inflation.",
-            "Cette approche rationnelle nécessite une éducation constante pour distinguer le bruit médiatique éphémère des signaux économiques réellement pertinents pour la croissance.",
-            "La maîtrise de ses émotions face à la volatilité des marchés est le premier capital à protéger pour garantir la viabilité de ses projets d'investissement sur plusieurs décennies.",
-            "Bâtir des sources de revenus passifs n'est pas une simple accumulation de richesses, mais une quête de souveraineté temporelle pour se consacrer à ce qui compte vraiment."
-        ]
-            }
-    },
-    {
-        "texte": [
-            "Le voyage authentique est une rupture nécessaire avec le confort sclérosant de nos habitudes, forçant l'individu à faire preuve d'une adaptabilité exemplaire face à l'inconnu.",
-            "S'immerger dans une culture étrangère permet de perdre ses repères habituels pour mieux se reconstruire à travers le regard de l'autre et la découverte de traditions séculaires.",
-            "Les barrières linguistiques ne sont pas des obstacles insurmontables, mais des occasions de pratiquer l'empathie et de tisser des liens humains par-delà les préjugés initiaux.",
-            "À l'heure du tourisme de masse, il devient crucial de redéfinir le voyage comme un acte conscient, respectueux des écosystèmes locaux et de la dignité des populations.",
-            "La richesse intérieure acquise au fil des rencontres constitue un trésor inaliénable qui transforme durablement notre perception de la diversité et de la tolérance mondiale."
-        ]
-    }
-    },
-    {
-        "texte": [
-            "La pédagogie moderne en langues étrangères exige une interaction constante et une exigence de précision pour favoriser une immersion linguistique réellement efficace.",
-            "Un tuteur d'élite doit savoir instaurer des limites strictes et fournir des retours rigoureux, garantissant ainsi un cadre de travail propice à l'excellence académique.",
-            "L'évaluation honnête des compétences est le socle de la progression, permettant d'identifier les lacunes grammaticales avec une précision chirurgicale dès les premiers niveaux.",
-            "Maîtriser les nuances stylistiques d'une langue demande une exposition régulière à des structures complexes, bien au-delà des simples phrases de conversation quotidiennes.",
-            "La transmission du savoir est une responsabilité noble qui ne tolère aucune approximation, car elle façonne la capacité de l'apprenant à interagir avec le monde."
-        ]
-    }
-    },
-    {
-        "texte": [
-            "La maîtrise des fondamentaux du développement web, comme le HTML et le CSS, constitue la base indispensable pour ériger des architectures numériques robustes et esthétiques.",
-            "L'apprentissage de la logique de programmation via JavaScript permet de basculer d'une simple présentation statique vers des applications dynamiques et interactives.",
-            "Chaque ligne de code doit être pensée pour l'optimisation et la maintenabilité, reflétant une rigueur intellectuelle qui sépare le développeur amateur de l'ingénieur aguerri.",
-            "La persévérance dans la résolution de bugs complexes forge une résilience technique indispensable pour naviguer dans l'évolution constante des frameworks et des outils.",
-            "Créer sa propre plateforme de communication est un projet d'envergure qui demande une vision globale, allant de l'interface utilisateur jusqu'à la sécurité des données."
-        ]
-    }
-    },
-    {
-        "texte": [
-            "Le secteur de la mobilité électrique transforme radicalement nos paysages urbains, offrant une alternative silencieuse et écologique aux moteurs à combustion traditionnels.",
-            "L'entretien rigoureux des nouveaux modes de transport personnel, comme la trottinette électrique, est essentiel pour garantir la sécurité et la longévité des composants critiques.",
-            "Comprendre les subtilités de la gestion thermique des batteries permet d'optimiser l'autonomie du véhicule et de réduire l'empreinte environnementale liée à son usage.",
-            "Face à la saturation des centres-villes, ces solutions de micro-mobilité permettent de s'affranchir des contraintes de stationnement tout en gagnant en fluidité de mouvement.",
-            "L'innovation technologique dans ce domaine doit s'accompagner d'une évolution des infrastructures urbaines pour permettre une cohabitation harmonieuse entre tous les usagers."
-        ]
-    }
-    },
-    {
-        "texte": [
-            "La littérature classique est un miroir fascinant des paradoxes humains, offrant des clés de lecture essentielles pour comprendre les structures de pouvoir et les jeux sociaux.",
-            "L'analyse critique d'un texte ne se limite pas à la compréhension du sens littéral, mais nécessite une exploration profonde des symboles et des intentions stylistiques de l'auteur.",
-            "Étudier les grands auteurs permet d'aiguiser son propre jugement et de développer une éloquence qui facilite la communication dans toutes les sphères de la vie publique.",
-            "La rigueur d'une analyse littéraire académique prépare l'esprit à déconstruire les discours contemporains avec une acuité et un scepticisme salutaires.",
-            "Le plaisir intellectuel réside dans cette rencontre entre une pensée historique et une sensibilité moderne, créant un dialogue intemporel sur la condition humaine."
-        ]
-        {
-    },
-    {
-        "texte": [
-            "La quête de l'excellence, qu'elle soit sportive, intellectuelle ou financière, demande une abnégation totale et une capacité à sacrifier le plaisir immédiat pour le but ultime.",
-            "Ceux qui atteignent les sommets de leur discipline sont souvent ceux qui ont su transformer l'échec en une leçon de stratégie, renforçant leur résilience à chaque épreuve.",
-            "L'ambition ne doit pas être perçue comme un défaut, mais comme le moteur nécessaire à tout progrès significatif et à toute transformation profonde de son environnement.",
-            "Il est impératif de s'entourer de mentors et de modèles d'autorité pour accélérer son apprentissage et éviter les erreurs grossières qui freinent la trajectoire vers le succès.",
-            "En dernière analyse, la grandeur d'un homme se mesure à la clarté de sa vision et à la force de la discipline qu'il s'impose pour concrétiser ses rêves les plus audacieux."
-        ]
-    }
-    }
-        ];
+        { "texte": ["Texte Jour 1 :Le Maître de son Temps : L'Odyssée d'un Entrepreneur Moderne
+Dans le tumulte des métropoles contemporaines, où le bruit des notifications remplace celui de la nature, une question fondamentale se pose : qui est réellement le maître de notre temps ? Pour beaucoup, la journée est une suite de tâches imposées, une course contre la montre où l'on finit souvent par perdre son souffle. Pourtant, pour une nouvelle génération d'esprits libres, l'indépendance n'est pas un luxe, mais une stratégie de vie méticuleuse.
 
-    // --- LE CERVEAU D'AUTOMATISATION ---
-    // Calculer l'index basé sur le jour du mois (Ex: le 12 du mois)
-    const aujourdhui = new Date().getDate();
-    const indexLecon = aujourdhui % catalogueLecons.length;
-    
-    // Extraction automatique des données du jour
+La rupture avec le modèle traditionnel
+Le modèle classique du travail, hérité du siècle dernier, repose sur une présence physique constante et une hiérarchie rigide. Cependant, l'avènement des outils numériques a brisé ces chaînes. Aujourd'hui, un jeune entrepreneur peut bâtir un empire depuis sa chambre, à condition de posséder une arme redoutable : l'autodiscipline. Sans patron pour surveiller ses horaires, l'individu devient son propre général. C'est ici que commence le véritable défi. Comme un navire sans boussole dans l'immensité de l'océan, celui qui ne sait pas s'organiser risque de dériver indéfiniment.
+
+La discipline ne doit pas être vue comme une prison, mais comme le socle de la liberté. En imposant des limites strictes à ses distractions, on crée un espace sacré pour la création et la réflexion. C'est dans ce silence choisi que naissent les projets les plus ambitieux, comme ces plateformes éducatives qui transforment la manière dont nous apprenons les langues.
+
+L'art de l'investissement et la psychologie du risque
+Bâtir un patrimoine ne se résume pas à accumuler des chiffres sur un écran. C'est avant tout un exercice de maîtrise de soi. L'investisseur moderne doit naviguer entre l'euphorie des marchés et le désespoir des crises. L'erreur la plus fatale, souvent commise par les débutants, est de suivre la foule. Lorsque tout le monde achète par peur de rater une occasion, le sage observe et attend. Lorsqu'une panique générale pousse les autres à vendre, il cherche les opportunités cachées.
+
+La gestion financière est une métaphore de la gestion émotionnelle. Pour protéger son capital, il faut d'abord protéger son esprit contre l'instinct grégaire. La diversification, qu'il s'agisse de métaux précieux comme l'or ou d'actifs numériques, n'est qu'un outil technique au service d'une vision à long terme. Le but ultime reste la souveraineté temporelle : ne plus travailler pour l'argent, mais faire en sorte que l'argent travaille pour nous.
+
+La technologie : alliée ou ennemie ?
+L'intelligence artificielle transforme radicalement nos méthodes de travail. Elle peut rédiger des textes, analyser des données et automatiser des processus complexes. Pour l'entrepreneur aguerri, c'est une aubaine qui permet de déléguer les tâches ingrates. Mais attention : l'outil ne doit jamais remplacer le jugement humain. L'IA peut générer du contenu, mais elle ne peut pas insuffler d'âme à un projet, ni établir une relation de confiance profonde avec un partenaire ou un élève.
+
+La transparence et l'intégrité sont les piliers de toute réussite durable. Dans un monde saturé de promesses superficielles, l'honnêteté devient une expertise rare et valorisée. Un tuteur qui donne un retour rigoureux et honnête à ses élèves, sans chercher à les flatter, construit une autorité bien plus solide que celui qui cherche simplement à plaire.
+
+L'équilibre entre ambition et sérénité
+La quête de la réussite peut parfois devenir dévorante. On se surprend à vérifier ses courriels à minuit ou à stresser pour un détail technique. C'est là que réside le paradoxe : pour être productif, il faut savoir s'arrêter. Le repos n'est pas une perte de temps, c'est une phase de maintenance indispensable. Cultiver son "Ikigai", ce point d'équilibre entre ce que l'on aime, ce pour quoi on est doué et ce dont le monde a besoin, est le secret d'une vie prospère.
+
+En fin de compte, la richesse intérieure acquise au fil des échecs et des résolutions de bugs complexes constitue un trésor inaliénable. Chaque ligne de code écrite, chaque leçon donnée et chaque investissement réfléchi sont des pierres posées sur l'édifice de notre propre destin.
+
+Conclusion
+Le succès n'est pas un événement soudain, c'est la cristallisation d'efforts quotidiens invisibles. C'est le résultat d'une volonté de fer qui refuse de subir les priorités d'autrui. En devenant maître de son temps, on ne gagne pas seulement de l'argent ; on conquiert la ressource la plus précieuse et la plus rare qui soit. La véritable définition de la prospérité se trouve dans ce dialogue intemporel entre une ambition matérielle légitime et une sérénité intellectuelle inébranlable. "] },
+        { "texte": ["Texte Jour 2 : À remplir."] },
+        { "texte": ["Texte Jour 3 : À remplir."] },
+        { "texte": ["Texte Jour 4 : À remplir."] },
+        { "texte": ["Texte Jour 5 : À remplir."] },
+        { "texte": ["Texte Jour 6 : À remplir."] },
+        { "texte": ["Texte Jour 7 : À remplir."] },
+        { "texte": ["Texte Jour 8 : À remplir."] },
+        { "texte": ["Texte Jour 9 : À remplir."] },
+        { "texte": ["Texte Jour 10 : À remplir."] },
+        { "texte": ["Texte Jour 11 : À remplir."] },
+        { "texte": ["Texte Jour 12 : À remplir."] },
+        { "texte": ["Texte Jour 13 : À remplir."] },
+        { "texte": ["Texte Jour 14 : À remplir."] },
+        { "texte": ["Texte Jour 15 : À remplir."] },
+        { "texte": ["Texte Jour 16 : À remplir."] },
+        { "texte": ["Texte Jour 17 : À remplir."] },
+        { "texte": ["Texte Jour 18 : À remplir."] },
+        { "texte": ["Texte Jour 19 : À remplir."] },
+        { "texte": ["Texte Jour 20 : À remplir."] },
+        { "texte": ["Texte Jour 21 : À remplir."] },
+        { "texte": ["Texte Jour 22 : À remplir."] },
+        { "texte": ["Texte Jour 23 : À remplir."] },
+        { "texte": ["Texte Jour 24 : À remplir."] },
+        { "texte": ["Texte Jour 25 : À remplir."] },
+        { "texte": ["Texte Jour 26 : À remplir."] },
+        { "texte": ["Texte Jour 27 : À remplir."] },
+        { "texte": ["Texte Jour 28 : À remplir."] },
+        { "texte": ["Texte Jour 29 : À remplir."] },
+        { "texte": ["Texte Jour 30 : À remplir."] }
+    ];
+
+    // --- LOGIQUE DE ROTATION ---
+    const dateRef = new Date();
+    // (Jour actuel - 1) modulo longueur du catalogue pour tomber sur l'index 0-29
+    const indexLecon = (dateRef.getDate() - 1) % catalogueLecons.length;
     const leconDuJour = catalogueLecons[indexLecon];
-    const texteParagraphes = leconDuJour.texte;
-    const dico = leconDuJour.definitions;
 
-    const motsExclus = ["dans", "avec", "pour", "mais", "pourrait", "saber", "xling"];
-    let modalTimeout;
-
-    // --- LOGIQUE D'AFFICHAGE (Génère le texte cliquable) ---
     function genererTexte() {
         const contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = ""; // Nettoyage
-        let motsVusGlobalement = new Set();
-
-        texteParagraphes.forEach(para => {
+        contentDiv.innerHTML = "";
+        leconDuJour.texte.forEach(para => {
             let pTag = document.createElement('div');
             pTag.className = 'paragraph';
-            
-            const fragments = para.split(/(\s+|[,.;’'!?]+)/);
-            
-            fragments.forEach(frag => {
-                const cleanWord = frag.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿñæœ]/g, '');
-                
-                if (cleanWord.length > 3 && !motsExclus.includes(cleanWord) && dico[cleanWord] && !motsVusGlobalement.has(cleanWord)) {
-                    let span = document.createElement('span');
-                    span.className = 'clickable-word';
-                    span.innerText = frag;
-                    span.onclick = (e) => {
-                        e.stopPropagation();
-                        montrerDef(frag, dico[cleanWord]);
-                    };
-                    pTag.appendChild(span);
-                    motsVusGlobalement.add(cleanWord);
-                } else {
-                    pTag.appendChild(document.createTextNode(frag));
-                }
-            });
+            pTag.innerText = para;
             contentDiv.appendChild(pTag);
         });
     }
 
-    function montrerDef(motOriginal, definition) {
-        const modal = document.getElementById('def-modal');
-        const texte = document.getElementById('def-text');
-        texte.innerHTML = `<strong style="color:var(--blue)">${motOriginal.toUpperCase()}</strong> : ${definition}`;
-        modal.classList.add('show');
-        clearTimeout(modalTimeout);
-        modalTimeout = setTimeout(() => modal.classList.remove('show'), 5000);
-    }
-
-    document.addEventListener('click', () => document.getElementById('def-modal').classList.remove('show'));
-
     function demarrer() {
         const nom = document.getElementById('nomEleve').value.trim();
-        if(nom.length < 3) {
-            document.getElementById('nomEleve').style.borderColor = "var(--accent)";
-            return;
-        }
+        if(nom.length < 2) return;
         document.getElementById('zone-login').style.display = 'none';
         document.getElementById('zone-lecture').style.display = 'block';
         document.getElementById('labelNom').innerText = nom;
         genererTexte();
-        lancerChrono(nom, 1800);
+        lancerChrono(1800); // 30 minutes
     }
 
-    function lancerChrono(nom, tempsTotal) {
-        let sec = tempsTotal; 
+    function lancerChrono(temps) {
+        let restant = temps;
+        const timerTag = document.getElementById('timer');
         const bar = document.getElementById('progressBar');
-        const interval = setInterval(() => {
-            sec--;
-            let m = Math.floor(sec / 60);
-            let s = sec % 60;
-            document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
-            bar.style.width = ((tempsTotal - sec) / tempsTotal) * 100 + "%";
-            if(sec <= 0) {
-                clearInterval(interval);
-                terminerSession(nom);
+        const itv = setInterval(() => {
+            restant--;
+            let m = Math.floor(restant / 60);
+            let s = restant % 60;
+            timerTag.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+            bar.style.width = ((temps - restant) / temps * 100) + "%";
+            if(restant <= 0) {
+                clearInterval(itv);
+                finaliser();
             }
         }, 1000);
     }
 
-    function terminerSession(nom) {
-        document.getElementById('timer').innerText = "VÉRIFIÉ";
-        document.getElementById('timer').style.color = "var(--success)";
-        document.getElementById('progressBar').style.background = "var(--success)";
-        document.getElementById('content').style.opacity = "0.2";
+    function finaliser() {
+        document.getElementById('code-final').style.display = 'block';
+        const hash = Math.random().toString(36).substring(7).toUpperCase();
+        const mois = new Date().toLocaleString('fr-FR', { month: 'short' }).toUpperCase();
+        document.getElementById('code-text').innerText = `SABER-${mois}-${hash}`;
+        document.getElementById('content').style.opacity = "0.3";
         document.getElementById('content').style.pointerEvents = "none";
-        const codeBox = document.getElementById('code-final');
-        const d = new Date();
-        const mois = d.toLocaleString('fr-FR', { month: 'short' }).toUpperCase().replace('.', '');
-        let hash = Math.random().toString(36).substring(2, 5).toUpperCase();
-        document.getElementById('code-text').innerText = `SABER-${hash}-${mois}`;
-        codeBox.style.display = 'block';
-        codeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 </script>
 </body>
