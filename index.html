@@ -1,440 +1,55 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ostad Saber - Immersion Élite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --glass-bg: rgba(20, 27, 45, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent: #e94560;
-            --accent-glow: rgba(233, 69, 96, 0.5);
-            --blue: #00d2ff;
-            --success: #10b981;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 210, 255, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(233, 69, 96, 0.05), transparent 25%);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 50px;
-            border-radius: 30px;
-            width: 90%;
-            max-width: 900px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
-            z-index: 10;
-            transition: all 0.5s ease;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--text-main), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-        }
-
-        .input-group {
-            position: relative;
-            width: 70%;
-            margin: 0 auto 30px auto;
-        }
-
-        input {
-            width: 100%;
-            padding: 18px 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.2);
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            outline: none;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-            background: rgba(0,0,0,0.4);
-        }
-
-        button {
-            background: linear-gradient(135deg, var(--accent), #ff2a4b);
-            color: white;
-            border: none;
-            padding: 18px 45px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 10px 20px var(--accent-glow);
-            letter-spacing: 1px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 25px rgba(233, 69, 96, 0.6);
-        }
-
-        #zone-lecture { display: none; animation: fadeIn 1s ease-out; }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .student-badge {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            color: var(--blue);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            font-weight: 500;
-        }
-
-        #timer {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 42px;
-            font-weight: 700;
-            color: var(--text-main);
-            text-shadow: 0 0 15px rgba(255,255,255,0.2);
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--blue), var(--accent));
-            transition: width 1s linear;
-        }
-
-        .lecture-box {
-            font-size: 1.25rem;
-            line-height: 1.9;
-            color: #cbd5e1;
-            height: 50vh;
-            overflow-y: auto;
-            padding-right: 20px;
-            text-align: justify;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) transparent;
-        }
-
-        .lecture-box::-webkit-scrollbar { width: 6px; }
-        .lecture-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-
-        .paragraph { margin-bottom: 30px; }
-
-        .clickable-word {
-            color: var(--blue);
-            cursor: pointer;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.2s;
-            border-bottom: 1px dashed rgba(0, 210, 255, 0.4);
-            padding: 0 2px;
-        }
-
-        .clickable-word:hover {
-            color: #fff;
-            background: rgba(0, 210, 255, 0.15);
-            border-radius: 4px;
-            border-bottom: 1px solid transparent;
-            text-shadow: 0 0 8px var(--blue);
-        }
-
-        #def-modal {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: fixed;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--blue);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 50px;
-            box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
-            z-index: 100;
-            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 18px;
-            max-width: 80%;
-        }
-
-        #def-modal.show { bottom: 40px; }
-        
-        .def-icon {
-            background: var(--blue);
-            color: var(--bg-color);
-            min-width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            font-weight: bold;
-        }
-
-        #code-final {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid var(--success);
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 30px;
-            text-align: center;
-            animation: pulseSuccess 2s infinite;
-        }
-
-        .code-title { color: var(--text-muted); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
-        .code-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--success); font-weight: 800; letter-spacing: 3px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes pulseSuccess { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-
-    </style>
-</head>
-<body>
-
-<div class="container" id="main-card">
-    <h1>Ostad Saber</h1>
-    <div class="subtitle">Protocole d'Immersion Linguistique</div>
-    
-    <div id="zone-login">
-        <div class="input-group">
-            <input type="text" id="nomEleve" placeholder="Identification de l'élève (Nom complet)" autocomplete="off">
-        </div>
-        <button onclick="demarrer()">Démarrer l'Expertise</button>
-    </div>
-
-    <div id="zone-lecture">
-        <div class="dashboard-header">
-            <div class="student-badge">👤 <span id="labelNom"></span></div>
-            <div id="timer">30:00</div>
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <div class="lecture-box" id="content"></div>
-
-        <div id="code-final">
-            <div class="code-title">Session Validée - Code de Certification</div>
-            <div class="code-value" id="code-text"></div>
-            <p style="color: #94a3b8; font-size: 14px; margin-top: 15px;">Copiez ce code et envoyez-le à l'Ostad sur la messagerie.</p>
-        </div>
-    </div>
-</div>
-
-<div id="def-modal">
-    <div class="def-icon">i</div>
-    <span id="def-text"></span>
-</div>
-
 <script>
-    // Configuration du dictionnaire (à compléter selon vos besoins)
-    const dico = {
+    // --- LE CATALOGUE DU GOUVERNEUR (Ajoute tes leçons ici) ---
+    const catalogueLecons = [
+        {
+            texte: [
+                "De nos jours, la manière dont nous apprenons a profondément évolué, notamment grâce au numérique.",
+                "Cette évolution offre de nouvelles opportunités, mais elle pose également certains défis."
+            ],
+            definitions: {
+                "évolué": "developed or changed over time",
+                "notamment": "particularly or especially",
+                "opportunités": "chances or possibilities",
+                "défis": "challenges"
+            }
+        },
+        {
+            texte: [
+                "La discipline est la clé de toute réussite. Un homme sans organisation est comme un navire sans boussole.",
+                "En maîtrisant les outils modernes, on devient maître de son propre destin."
+            ],
+            definitions: {
+                "discipline": "self-control and organization",
+                "réussite": "success",
+                "boussole": "compass",
+                "maîtrise": "mastery"
+            }
+        }
+    ];
+
+    // --- LE CERVEAU D'AUTOMATISATION ---
+    // Calculer l'index basé sur le jour du mois (Ex: le 12 du mois)
+    const aujourdhui = new Date().getDate();
+    const indexLecon = aujourdhui % catalogueLecons.length;
     
-    
-   "évolué": "developed or changed over time",
-"notamment": "particularly or especially",
-"dépendaient": "relied on or were dependent on",
-"principalement": "mainly or mostly",
-"ressources": "materials or assets used for learning",
-"transforme": "changes or alters significantly",
-"relation": "connection or interaction between people",
-"opportunités": "chances or possibilities for progress",
-"défis": "challenges or difficult situations",
-"tirer parti": "to make good use of something",
-"outils": "instruments or means used to perform tasks",
-"flexibilité": "ability to adapt or change easily",
-"emploi du temps": "schedule or timetable",
-"contraintes": "limitations or restrictions",
-"ressource": "something valuable that can be used",
-"autonomie": "ability to work independently",
-"discipline": "self-control and organization",
-"motivation": "reason or desire to act",
-"variées": "diverse or different",
-"interactifs": "allowing interaction or engagement",
-"diversité": "variety or range of differences",
-"personnalisé": "adapted to individual needs",
-"abondance": "large quantity or plenty",
-"fiables": "trustworthy or reliable",
-"esprit critique": "ability to analyze and evaluate information",
-"notions": "ideas or concepts",
-"nuire": "to harm or damage",
-"progression": "development or improvement over time",
-"élément": "component or part of something",
-"traditionnelle": "conventional or customary",
-"effort": "physical or mental exertion",
-"isolés": "separated or alone",
-"objectifs": "goals or targets",
-"plateformes": "online systems or environments",
-"dynamique": "active and energetic",
-"engagement": "involvement or participation",
-"participer": "to take part in",
-"connaissances": "information and understanding",
-"indispensable": "absolutely necessary",
-"adapter": "to adjust or modify",
-"contexte": "situation or environment",
-"langues étrangères": "foreign languages",
-"locuteurs natifs": "people who speak a language as their first language",
-"compréhension": "ability to understand",
-"prononciation": "way of saying words",
-"immersion": "deep involvement in an environment",
-"aspects": "features or parts",
-"remplacer": "to take the place of",
-"interactions": "communication between people",
-"compétences": "skills or abilities",
-"émotions": "feelings",
-"percevoir": "to notice or become aware of",
-"distractions": "things that take attention away",
-"obstacle": "something that blocks progress",
-"tenté": "attracted or tempted",
-"réduire": "to decrease or make smaller",
-"concentration": "focus of attention",
-"efficacité": "ability to produce results",
-"environnement": "surroundings or conditions",
-"limiter": "to restrict or reduce",
-"stratégies": "plans or methods",
-"planning": "organized schedule",
-"récompenses": "rewards or benefits",
-"atteint": "achieved or reached",
-"long terme": "over a long period of time",
-"collaboration": "working together",
-"facilitée": "made easier",
-"forums": "online discussion platforms",
-"échanger": "to share or trade ideas",
-"s’entraider": "to help each other",
-"renforce": "makes stronger",
-"sentiment": "feeling or emotion",
-"appartenance": "sense of belonging",
-"autonomie": "independence",
-"résoudre": "to solve",
-"gérer": "to manage",
-"indépendante": "self-reliant",
-"progrès": "advancement or improvement",
-"intelligence artificielle": "technology simulating human intelligence",
-"analyser": "to examine in detail",
-"erreurs": "mistakes",
-"solutions": "answers or ways to solve problems",
-"dépendre": "to rely on",
-"persévérance": "continued effort despite difficulty",
-"volonté": "determination",
-"garantir": "to ensure",
-"réussite": "success",
-"ère": "period of time",
-"possibilités": "opportunities or options",
-"exige": "requires",
-"organisation": "arrangement or planning",
-"combiner": "to bring together",
-"équilibrée": "balanced",
-"efficace": "producing good results",
-};
+    // Extraction automatique des données du jour
+    const leconDuJour = catalogueLecons[indexLecon];
+    const texteParagraphes = leconDuJour.texte;
+    const dico = leconDuJour.definitions;
 
-    const motsExclus = ["dans", "avec", "pour", "mais", "pourrait"];
-
-    const texteParagraphes = [
-        "De nos jours, la manière dont nous apprenons a profondément évolué, notamment grâce au développement des technologies numériques. Autrefois, les élèves dépendaient principalement des livres et des enseignants présents physiquement dans les salles de classe. Aujourd’hui, il est possible d’accéder à une quantité immense de ressources en ligne, ce qui transforme non seulement les méthodes d’apprentissage, mais aussi la relation entre l’enseignant et l’élève. Cette évolution offre de nouvelles opportunités, mais elle pose également certains défis qu’il est important de comprendre afin de tirer le meilleur parti de ces outils modernes.",
-
-"En effet, l’apprentissage en ligne permet une grande flexibilité. Les étudiants peuvent organiser leur emploi du temps selon leurs besoins et leurs contraintes personnelles. Par exemple, une personne qui travaille toute la journée peut suivre des cours le soir, sans avoir besoin de se déplacer. Cette liberté est particulièrement appréciée dans les sociétés modernes où le temps est devenu une ressource précieuse. Cependant, cette autonomie exige aussi une grande discipline, car sans organisation, il est facile de perdre sa motivation.",
-
-"Par ailleurs, l’accès à des ressources variées constitue un avantage considérable. Sur Internet, on peut trouver des vidéos, des articles, des exercices interactifs et même des cours complets dans presque tous les domaines. Cette diversité permet à chacun de choisir la méthode qui lui convient le mieux. Certaines personnes apprennent mieux en regardant des vidéos, tandis que d’autres préfèrent lire ou pratiquer. Ainsi, l’apprentissage devient plus personnalisé et plus efficace.",
-
-"Cependant, cette abondance d’informations peut également poser problème. Il n’est pas toujours facile de distinguer les sources fiables des sources peu sérieuses. Les étudiants doivent donc développer un esprit critique afin de vérifier la qualité des informations qu’ils utilisent. Sans cette compétence, ils risquent d’apprendre des notions incorrectes ou incomplètes, ce qui peut nuire à leur progression.",
-
-"En outre, la motivation représente un élément essentiel dans l’apprentissage en ligne. Contrairement à une salle de classe traditionnelle, où l’enseignant est présent pour guider et encourager les élèves, l’apprentissage à distance demande un effort personnel plus important. Certains étudiants peuvent se sentir isolés et perdre leur intérêt au fil du temps. Il est donc important de créer des habitudes de travail régulières et de se fixer des objectifs clairs.",
-
-"D’un autre côté, les plateformes d’apprentissage offrent souvent des outils interactifs qui rendent les cours plus intéressants. Par exemple, les quiz, les jeux éducatifs et les discussions en ligne permettent de rendre l’apprentissage plus dynamique. Ces éléments favorisent l’engagement des étudiants et les encouragent à participer activement. De plus, ils permettent de vérifier rapidement les connaissances acquises.",
-
-"Il est également important de mentionner le rôle de l’enseignant dans ce nouveau contexte. Même si la technologie joue un rôle central, l’enseignant reste indispensable. Il guide les étudiants, répond à leurs questions et les aide à surmonter leurs difficultés. Dans un environnement en ligne, l’enseignant doit adapter ses méthodes pour maintenir l’attention des élèves et créer une interaction efficace.",
-
-"En ce qui concerne les langues étrangères, l’apprentissage en ligne présente des avantages particuliers. Il permet de communiquer avec des locuteurs natifs, de pratiquer la compréhension orale grâce à des vidéos authentiques et d’améliorer la prononciation avec des outils spécialisés. Cette immersion virtuelle peut être très bénéfique pour progresser rapidement.",
-
-"Toutefois, certains aspects de l’apprentissage traditionnel restent difficiles à remplacer. Par exemple, les interactions sociales directes jouent un rôle important dans le développement des compétences communicationnelles. Les discussions en face à face permettent de mieux comprendre les émotions et les réactions des autres, ce qui est plus difficile à percevoir à travers un écran.",
-
-"De plus, les distractions constituent un obstacle majeur à l’apprentissage en ligne. Lorsque l’on étudie sur un ordinateur ou un téléphone, il est facile d’être tenté par les réseaux sociaux, les jeux ou d’autres activités. Cette situation peut réduire la concentration et diminuer l’efficacité du travail. Il est donc essentiel de créer un environnement d’étude calme et de limiter les distractions.",
-
-"Malgré ces difficultés, de nombreuses personnes réussissent à apprendre efficacement grâce aux outils numériques. Elles développent des stratégies pour rester concentrées, comme établir un planning, prendre des pauses régulières et se fixer des récompenses après avoir atteint leurs objectifs. Ces techniques permettent de maintenir la motivation sur le long terme.",
-
-"En outre, la collaboration entre étudiants est facilitée par les technologies modernes. Les forums, les groupes de discussion et les applications de messagerie permettent d’échanger des idées et de s’entraider. Cette coopération renforce la compréhension des sujets étudiés et crée un sentiment d’appartenance à une communauté, même à distance.",
-
-"Il est aussi intéressant de noter que l’apprentissage en ligne favorise l’autonomie. Les étudiants apprennent à chercher des informations, à résoudre des problèmes par eux-mêmes et à gérer leur temps. Ces compétences sont très utiles dans la vie professionnelle, où l’on attend souvent des individus qu’ils soient capables de travailler de manière indépendante.",
-
-"Par ailleurs, les progrès technologiques continuent d’améliorer les outils d’apprentissage. L’intelligence artificielle, par exemple, permet de proposer des exercices adaptés au niveau de chaque étudiant. Cela rend l’apprentissage encore plus personnalisé et efficace. Les systèmes peuvent analyser les erreurs et proposer des solutions adaptées, ce qui aide à progresser plus rapidement.",
-
-"Cependant, il est important de ne pas dépendre uniquement de la technologie. L’apprentissage nécessite également des efforts personnels, de la patience et de la persévérance. Les outils numériques sont des moyens, mais ils ne remplacent pas la volonté d’apprendre. Sans motivation, même les meilleures ressources ne peuvent pas garantir le succès.",
-
-"En conclusion, l’apprentissage à l’ère numérique offre de nombreuses possibilités, mais il exige aussi des compétences spécifiques. Il permet une grande flexibilité, un accès à des ressources variées et une personnalisation des méthodes d’apprentissage. Cependant, il nécessite également de la discipline, un esprit critique et une bonne organisation. En combinant les avantages des technologies modernes avec les méthodes traditionnelles, il est possible de créer une expérience d’apprentissage équilibrée et efficace.",
-];
+    const motsExclus = ["dans", "avec", "pour", "mais", "pourrait", "saber", "xling"];
     let modalTimeout;
 
+    // --- LOGIQUE D'AFFICHAGE (Génère le texte cliquable) ---
     function genererTexte() {
         const contentDiv = document.getElementById('content');
+        contentDiv.innerHTML = ""; // Nettoyage
         let motsVusGlobalement = new Set();
 
         texteParagraphes.forEach(para => {
             let pTag = document.createElement('div');
             pTag.className = 'paragraph';
             
-            // Regex améliorée pour scinder en gardant tout
             const fragments = para.split(/(\s+|[,.;’'!?]+)/);
             
             fragments.forEach(frag => {
@@ -461,20 +76,13 @@
     function montrerDef(motOriginal, definition) {
         const modal = document.getElementById('def-modal');
         const texte = document.getElementById('def-text');
-        
         texte.innerHTML = `<strong style="color:var(--blue)">${motOriginal.toUpperCase()}</strong> : ${definition}`;
         modal.classList.add('show');
-        
         clearTimeout(modalTimeout);
-        modalTimeout = setTimeout(() => {
-            modal.classList.remove('show');
-        }, 5000);
+        modalTimeout = setTimeout(() => modal.classList.remove('show'), 5000);
     }
 
-    // Fermer la popup si on clique ailleurs
-    document.addEventListener('click', () => {
-        document.getElementById('def-modal').classList.remove('show');
-    });
+    document.addEventListener('click', () => document.getElementById('def-modal').classList.remove('show'));
 
     function demarrer() {
         const nom = document.getElementById('nomEleve').value.trim();
@@ -482,28 +90,22 @@
             document.getElementById('nomEleve').style.borderColor = "var(--accent)";
             return;
         }
-        
         document.getElementById('zone-login').style.display = 'none';
         document.getElementById('zone-lecture').style.display = 'block';
         document.getElementById('labelNom').innerText = nom;
-        
         genererTexte();
-        lancerChrono(nom, 1800); // 30 minutes
+        lancerChrono(nom, 1800);
     }
 
     function lancerChrono(nom, tempsTotal) {
         let sec = tempsTotal; 
         const bar = document.getElementById('progressBar');
-        
         const interval = setInterval(() => {
             sec--;
             let m = Math.floor(sec / 60);
             let s = sec % 60;
             document.getElementById('timer').innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
-            
-            let pourcentage = ((tempsTotal - sec) / tempsTotal) * 100;
-            bar.style.width = pourcentage + "%";
-
+            bar.style.width = ((tempsTotal - sec) / tempsTotal) * 100 + "%";
             if(sec <= 0) {
                 clearInterval(interval);
                 terminerSession(nom);
@@ -515,21 +117,14 @@
         document.getElementById('timer').innerText = "VÉRIFIÉ";
         document.getElementById('timer').style.color = "var(--success)";
         document.getElementById('progressBar').style.background = "var(--success)";
-        
         document.getElementById('content').style.opacity = "0.2";
         document.getElementById('content').style.pointerEvents = "none";
-        
         const codeBox = document.getElementById('code-final');
-        const codeText = document.getElementById('code-text');
-        
         const d = new Date();
         const mois = d.toLocaleString('fr-FR', { month: 'short' }).toUpperCase().replace('.', '');
         let hash = Math.random().toString(36).substring(2, 5).toUpperCase();
-        
-        codeText.innerText = `SABER-${hash}-${mois}`;
+        document.getElementById('code-text').innerText = `SABER-${hash}-${mois}`;
         codeBox.style.display = 'block';
         codeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 </script>
-</body>
-</html>
