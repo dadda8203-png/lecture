@@ -43,12 +43,14 @@
         #zone-lecture { display: none; }
 
         .input-group { text-align: center; margin-bottom: 30px; }
-        input { padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; width: 60%; font-size: 16px; text-align: center; }
+        input { padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; width: 60%; font-size: 16px; text-align: center; outline: none; }
+        input:focus { border-color: var(--blue); }
 
         button { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: 800; display: block; margin: 20px auto; transition: 0.3s; }
+        button:hover { transform: scale(1.02); opacity: 0.9; }
 
         .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        #timer { font-family: 'JetBrains Mono'; font-size: 32px; }
+        #timer { font-family: 'JetBrains Mono'; font-size: 32px; color: var(--blue); }
 
         .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; }
         .progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 1s linear; }
@@ -86,67 +88,47 @@
 </div>
 
 <script>
-    // --- CATALOGUE DES 30 JOURS (À REMPLIR) ---
-    // Ajoute tes textes entre les crochets [] de chaque objet.
+    // --- CATALOGUE DES TEXTES ---
     const catalogueLecons = [
-        { "texte": ["Le Maître de son Temps : L'Odyssée d'un Entrepreneur Moderne",
-            "Dans le tumulte des métropoles contemporaines, où le bruit des notifications remplace celui de la nature, une question fondamentale se pose : qui est réellement le maître de notre temps ? Pour beaucoup, la journée est une suite de tâches imposées, une course contre la montre où l'on finit souvent par perdre son souffle. Pourtant, pour une nouvelle génération d'esprits libres, l'indépendance n'est pas un luxe, mais une stratégie de vie méticuleuse.",
-            "La rupture avec le modèle traditionnel : Le modèle classique du travail, hérité du siècle dernier, repose sur une présence physique constante et une hiérarchie rigide. Cependant, l'avènement des outils numériques a brisé ces chaînes. Aujourd'hui, un jeune entrepreneur peut bâtir un empire depuis sa chambre, à condition de posséder une arme redoutable : l'autodiscipline.",
-            "La discipline ne doit pas être vue comme une prison, mais comme le socle de la liberté. En imposant des limites strictes à ses distractions, on crée un espace sacré pour la création et la réflexion. C'est dans ce silence choisi que naissent les projets les plus ambitieux, comme ces plateformes éducatives qui transforment la manière dont nous apprenons les langues.",
-            "L'art de l'investissement et la psychologie du risque : Bâtir un patrimoine ne se résume pas à accumuler des chiffres sur un écran. C'est avant tout un exercice de maîtrise de soi. L'investisseur moderne doit naviguer entre l'euphorie des marchés et le désespoir des crises. L'erreur la plus fatale, souvent commise par les débutants, est de suivre la foule.",
-            "La gestion financière est une métaphore de la gestion émotionnelle. Pour protéger son capital, il faut d'abord protéger son esprit contre l'instinct grégaire. La diversification, qu'il s'agisse de métaux précieux comme l'or ou d'actifs numériques, n'est qu'un outil technique au service d'une vision à long terme.",
-            "La technologie : alliée ou ennemie ? L'intelligence artificielle transforme radicalement nos méthodes de travail. Elle peut rédiger des textes, analyser des données et automatiser des processus complexes. Pour l'entrepreneur aguerri, c'est une aubaine qui permet de déléguer les tâches ingrates. Mais attention : l'outil ne doit jamais remplacer le jugement humain.",
-            "La transparence et l'intégrité sont les piliers de toute réussite durable. Dans un monde saturé de promesses superficielles, l'honnêteté devient une expertise rare et valorisée. Un tuteur qui donne un retour rigoureux et honnête à ses élèves, sans chercher à les flatter, construit une autorité bien plus solide que celui qui cherche simplement à plaire.",
-            "L'équilibre entre ambition et sérénité : La quête de la réussite peut parfois devenir dévorante. On se surprend à vérifier ses courriels à minuit ou à stresser pour un détail technique. C'est là que réside le paradoxe : pour être productif, il faut savoir s'arrêter. Le repos n'est pas une perte de temps, c'est une phase de maintenance indispensable.",
-            "En fin de compte, la richesse intérieure acquise au fil des échecs et des résolutions de bugs complexes constitue un trésor inaliénable. Chaque ligne de code écrite, chaque leçon donnée et chaque investissement réfléchi sont des pierres posées sur l'édifice de notre propre destin.",
-            "Conclusion : Le succès n'est pas un événement soudain, c'est la cristallisation d'efforts quotidiens invisibles. C'est le résultat d'une volonté de fer qui refuse de subir les priorités d'autrui. En devenant maître de son temps, on conquiert la ressource la plus précieuse et la plus rare qui soit." ]       
-        { "texte": [""L'Architecte du Code : Bâtir des Fondations Invisibles",
-        "Dans le monde physique, construire un édifice demande des plans précis, des matériaux solides et une main-d'œuvre qualifiée. Dans l'univers numérique, le processus est identique, bien que les briques soient invisibles. Apprendre le développement web, c'est avant tout apprendre à structurer sa pensée pour transformer une idée abstraite en une interface fonctionnelle et esthétique.",
-        "Tout commence par les fondations : le HTML et le CSS. Le HTML représente l'ossature, les murs porteurs d'un site, tandis que le CSS apporte la beauté, le design et l'ergonomie. Pour un débutant, voir une simple ligne de code se transformer en un bouton coloré ou en un menu élégant est une expérience gratifiante. C'est le premier pas vers la compréhension du langage des machines.",
-        "Cependant, un site moderne ne peut pas se contenter d'être statique. Pour offrir une expérience utilisateur mémorable, il doit être interactif. C'est ici qu'intervient le JavaScript. Ce langage est le moteur de l'application. Il permet de gérer les formulaires, d'animer les éléments et de communiquer avec des bases de données. Maîtriser la logique de programmation, c'est acquérir le pouvoir de créer des systèmes qui répondent aux besoins des utilisateurs en temps réel.",
-        "La rigueur est la vertu cardinale du développeur. Une simple erreur de syntaxe, une virgule oubliée ou une parenthèse mal fermée, et tout l'édifice peut s'effondrer. Cette exigence de précision forge une discipline intellectuelle qui dépasse le cadre informatique. Elle nous apprend la patience et la persévérance face à l'échec. Chaque bug résolu n'est pas seulement une victoire technique, c'est une leçon de résilience.",
-        "L'un des défis majeurs pour l'entrepreneur-développeur est la maintenabilité. Il ne suffit pas de coder vite ; il faut coder intelligemment. Un code 'propre' est un code qui peut être compris par un autre humain, ou par soi-même six mois plus tard. L'optimisation et l'organisation des fichiers sont essentielles pour garantir que la plateforme puisse évoluer sans devenir un labyrinthe inextricable.",
-        "Enfin, la sécurité des données est devenue une priorité absolue. À l'heure où les cyberattaques se multiplient, protéger les informations de ses utilisateurs est une responsabilité éthique et légale. Un architecte du web doit donc veiller à ce que chaque porte numérique soit solidement verrouillée, garantissant ainsi la confiance et la sérénité des clients.",
-        "Conclusion : Créer sa propre plateforme, comme Xling, est un projet d'envergure qui demande une vision globale. En maîtrisant les outils du développement web, on ne se contente pas de fabriquer un outil ; on bâtit un espace de liberté et de transmission. C'est dans cet équilibre entre technique et créativité que se trouve la véritable maîtrise de l'art numérique."] },
-        { "texte": ["Texte Jour 3 : À remplir."] },
-        { "texte": ["Texte Jour 4 : À remplir."] },
-        { "texte": ["Texte Jour 5 : À remplir."] },
-        { "texte": ["Texte Jour 6 : À remplir."] },
-        { "texte": ["Texte Jour 7 : À remplir."] },
-        { "texte": ["Texte Jour 8 : À remplir."] },
-        { "texte": ["Texte Jour 9 : À remplir."] },
-        { "texte": ["Texte Jour 10 : À remplir."] },
-        { "texte": ["Texte Jour 11 : À remplir."] },
-        { "texte": ["Texte Jour 12 : À remplir."] },
-        { "texte": ["Texte Jour 13 : À remplir."] },
-        { "texte": ["Texte Jour 14 : À remplir."] },
-        { "texte": ["Texte Jour 15 : À remplir."] },
-        { "texte": ["Texte Jour 16 : À remplir."] },
-        { "texte": ["Texte Jour 17 : À remplir."] },
-        { "texte": ["Texte Jour 18 : À remplir."] },
-        { "texte": ["Texte Jour 19 : À remplir."] },
-        { "texte": ["Texte Jour 20 : À remplir."] },
-        { "texte": ["Texte Jour 21 : À remplir."] },
-        { "texte": ["Texte Jour 22 : À remplir."] },
-        { "texte": ["Texte Jour 23 : À remplir."] },
-        { "texte": ["Texte Jour 24 : À remplir."] },
-        { "texte": ["Texte Jour 25 : À remplir."] },
-        { "texte": ["Texte Jour 26 : À remplir."] },
-        { "texte": ["Texte Jour 27 : À remplir."] },
-        { "texte": ["Texte Jour 28 : À remplir."] },
-        { "texte": ["Texte Jour 29 : À remplir."] },
-        { "texte": ["Texte Jour 30 : À remplir."] }
+        { 
+            "texte": [
+                "Le Maître de son Temps : L'Odyssée d'un Entrepreneur Moderne",
+                "Dans le tumulte des métropoles contemporaines, où le bruit des notifications remplace celui de la nature, une question fondamentale se pose : qui est réellement le maître de notre temps ?",
+                "La rupture avec le modèle traditionnel : Le modèle classique du travail, hérité du siècle dernier, repose sur une présence physique constante et une hiérarchie rigide. Cependant, l'avènement des outils numériques a brisé ces chaînes.",
+                "L'art de l'investissement et la psychologie du risque : Bâtir un patrimoine ne se résume pas à accumuler des chiffres sur un écran. C'est avant tout un exercice de maîtrise de soi.",
+                "Conclusion : Le succès n'est pas un événement soudain, c'est la cristallisation d'efforts quotidiens invisibles."
+            ] 
+        },
+        { 
+            "texte": [
+                "L'Architecte du Code : Bâtir des Fondations Invisibles",
+                "Apprendre le développement web, c'est avant tout apprendre à structurer sa pensée pour transformer une idée abstraite en une interface fonctionnelle.",
+                "Tout commence par les fondations : le HTML et le CSS. Le HTML représente l'ossature, les murs porteurs d'un site.",
+                "La rigueur est la vertu cardinale du développeur. Chaque bug résolu n'est pas seulement une victoire technique, c'est une leçon de résilience.",
+                "Conclusion : En maîtrisant les outils du développement web, on bâtit un espace de liberté et de transmission."
+            ] 
+        },
+        { 
+            "texte": [
+                "L'Octogone de la Vie : Discipline et Stratégie",
+                "Le combat ne commence jamais le jour où l'on monte dans la cage. Il commence des mois auparavant, dans l'ombre d'une salle d'entraînement.",
+                "La discipline est le premier pilier de la réussite. Se lever à l'aube pour courir sous la pluie demande une force de caractère exceptionnelle.",
+                "Dans l'octogone, la force brute ne suffit pas. Le MMA est souvent comparé à une partie d'échecs humaine.",
+                "Conclusion : Le véritable combat est celui que nous menons chaque jour contre notre propre paresse."
+            ] 
+        }
     ];
 
-    // --- LOGIQUE DE ROTATION ---
-    const dateRef = new Date();
-    // (Jour actuel - 1) modulo longueur du catalogue pour tomber sur l'index 0-29
-    const indexLecon = (dateRef.getDate() - 1) % catalogueLecons.length;
-    const leconDuJour = catalogueLecons[indexLecon];
-
+    // --- LOGIQUE CORE ---
     function genererTexte() {
+        const dateRef = new Date();
+        // Utilise le jour du mois pour choisir le texte (1er jour = index 0)
+        const indexLecon = (dateRef.getDate() - 1) % catalogueLecons.length;
+        const leconDuJour = catalogueLecons[indexLecon];
+        
         const contentDiv = document.getElementById('content');
         contentDiv.innerHTML = "";
+        
         leconDuJour.texte.forEach(para => {
             let pTag = document.createElement('div');
             pTag.className = 'paragraph';
@@ -156,11 +138,18 @@
     }
 
     function demarrer() {
-        const nom = document.getElementById('nomEleve').value.trim();
-        if(nom.length < 2) return;
+        const inputNom = document.getElementById('nomEleve');
+        const nom = inputNom.value.trim();
+        
+        if(nom.length < 2) {
+            alert("Veuillez entrer un nom valide.");
+            return;
+        }
+
         document.getElementById('zone-login').style.display = 'none';
         document.getElementById('zone-lecture').style.display = 'block';
         document.getElementById('labelNom').innerText = nom;
+        
         genererTexte();
         lancerChrono(1800); // 30 minutes
     }
@@ -169,12 +158,15 @@
         let restant = temps;
         const timerTag = document.getElementById('timer');
         const bar = document.getElementById('progressBar');
+        
         const itv = setInterval(() => {
             restant--;
             let m = Math.floor(restant / 60);
             let s = restant % 60;
+            
             timerTag.innerText = `${m}:${s < 10 ? '0'+s : s}`;
             bar.style.width = ((temps - restant) / temps * 100) + "%";
+            
             if(restant <= 0) {
                 clearInterval(itv);
                 finaliser();
@@ -185,10 +177,8 @@
     function finaliser() {
         document.getElementById('code-final').style.display = 'block';
         const hash = Math.random().toString(36).substring(7).toUpperCase();
-        const mois = new Date().toLocaleString('fr-FR', { month: 'short' }).toUpperCase();
-        document.getElementById('code-text').innerText = `SABER-${mois}-${hash}`;
+        document.getElementById('code-text').innerText = `SABER-CERT-${hash}`;
         document.getElementById('content').style.opacity = "0.3";
-        document.getElementById('content').style.pointerEvents = "none";
     }
 </script>
 </body>
