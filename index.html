@@ -5,73 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace Lecture - Étude Dirigée</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #eceff1;
+            --text-main: #34495e;
+        }
+
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: #eceff1; 
-            color: #2c3e50;
+            background-color: var(--bg-color); 
+            color: var(--primary-color);
         }
+
         .container { 
             width: 90%;
-            max-width: 800px;
-            background: white; 
-            padding: 40px; 
-            border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            max-width: 850px;
+            background: #ffffff; 
+            padding: 50px; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
         }
-        h1 { 
-            border-left: 5px solid #2c3e50;
-            padding-left: 15px;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-        }
+
         #timer-container { 
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            color: #7f8c8d;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+            color: #95a5a6;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
         }
+
         #timer { 
-            font-weight: bold; 
-            color: #e74c3c; 
+            font-weight: 700; 
+            color: var(--accent-color); 
         }
+
+        h1 { 
+            border-left: 6px solid var(--primary-color);
+            padding-left: 20px;
+            font-size: 2rem;
+            margin: 30px 0;
+            font-weight: 800;
+        }
+
         #texte {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.15rem;
+            line-height: 1.9;
             text-align: justify;
-            min-height: 200px;
-            padding: 20px;
-            border-top: 1px solid #eee;
+            color: var(--text-main);
+            min-height: 300px;
         }
+
+        /* Suppression des marges inutiles sur le dernier paragraphe */
+        #texte p:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="timer-container">
-            Temps de lecture : <span id="timer">0</span> secondes
-        </div>
+    <main class="container">
+        <header id="timer-container" role="timer" aria-live="polite">
+            Chronomètre de lecture : <span id="timer">0</span> secondes
+        </header>
         
         <h1>Le Lion de Martil</h1>
         
-        <div id="texte">
-            <p>Le contenu de la leçon s'affichera ici pour l'étudiant.</p>
-        </div>
-    </div>
+        <article id="texte">
+            <p>Le contenu pédagogique sera inséré ici.</p>
+        </article>
+    </main>
 
     <script>
-        let secondes = 0;
-        const timerElement = document.getElementById('timer');
-        
-        setInterval(() => {
-            secondes++;
-            timerElement.innerText = secondes;
-        }, 1000);
+        (function() {
+            let secondes = 0;
+            const timerElement = document.getElementById('timer');
+            
+            // Utilisation d'une fonction nommée pour plus de clarté
+            const incrementerTimer = () => {
+                secondes++;
+                timerElement.textContent = secondes;
+            };
+
+            setInterval(incrementerTimer, 1000);
+        })();
     </script>
 
 </body>
