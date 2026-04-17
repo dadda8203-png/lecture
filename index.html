@@ -3,176 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xling - Plateforme d'Immersion</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>Espace Lecture - Étude Dirigée</title>
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --glass-bg: rgba(20, 27, 45, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent: #e94560;
-            --blue: #00d2ff;
-            --success: #10b981;
-            --text-main: #f8fafc;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+            background: #eceff1; 
+            color: #2c3e50;
         }
-
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 30px;
+        .container { 
             width: 90%;
-            max-width: 1000px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            max-width: 800px;
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
         }
-
-        h1 { text-align: center; letter-spacing: 4px; text-transform: uppercase; background: linear-gradient(90deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        #zone-lecture { display: none; }
-
-        .input-group { text-align: center; margin-bottom: 30px; }
-        input { padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3); color: white; width: 60%; font-size: 16px; text-align: center; outline: none; }
-        input:focus { border-color: var(--blue); }
-
-        button { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: 800; display: block; margin: 20px auto; transition: 0.3s; }
-        button:hover { transform: scale(1.02); opacity: 0.9; }
-
-        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        #timer { font-family: 'JetBrains Mono'; font-size: 32px; color: var(--blue); }
-
-        .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; }
-        .progress-bar { height: 100%; width: 0%; background: var(--accent); transition: width 1s linear; }
-
-        .lecture-box { font-size: 1.2rem; line-height: 1.8; color: #cbd5e1; max-height: 60vh; overflow-y: auto; text-align: justify; padding-right: 15px; }
-        .paragraph { margin-bottom: 25px; }
-
-        #code-final { display: none; text-align: center; margin-top: 20px; padding: 20px; border: 2px solid var(--success); border-radius: 15px; background: rgba(16, 185, 129, 0.1); }
+        h1 { 
+            border-left: 5px solid #2c3e50;
+            padding-left: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        #timer-container { 
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+        }
+        #timer { 
+            font-weight: bold; 
+            color: #e74c3c; 
+        }
+        #texte {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+            min-height: 200px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Ostad Saber</h1>
-    
-    <div id="zone-login">
-        <div class="input-group">
-            <input type="text" id="nomEleve" placeholder="Entrez votre nom complet">
+    <div class="container">
+        <div id="timer-container">
+            Temps de lecture : <span id="timer">0</span> secondes
         </div>
-        <button onclick="demarrer()">Lancer la session quotidienne</button>
-    </div>
-
-    <div id="zone-lecture">
-        <div class="dashboard-header">
-            <div style="color: var(--blue)">Session de : <span id="labelNom"></span></div>
-            <div id="timer">30:00</div>
-        </div>
-        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-        <div class="lecture-box" id="content"></div>
-        <div id="code-final">
-            <div style="color: var(--success); font-weight: 800; margin-bottom: 10px;">TRAVAIL VÉRIFIÉ</div>
-            <div id="code-text" style="font-family: 'JetBrains Mono'; font-size: 24px; color: #fff;"></div>
+        
+        <h1>Le Lion de Martil</h1>
+        
+        <div id="texte">
+            <p>Le contenu de la leçon s'affichera ici pour l'étudiant.</p>
         </div>
     </div>
-</div>
 
-<script>
-    // --- CATALOGUE DES TEXTES ---
-    const catalogueLecons = [
-        { 
-            "texte": [ Voici le Texte Jour 4, rédigé dans un registre B2/C2 (niveau avancé) pour satisfaire ton exigence de rigueur intellectuelle, tout en restant accessible pour tes élèves. Le sujet porte sur la psychologie cognitive et l'apprentissage profond, un thème essentiel pour ta plateforme.
-
-Le code est prêt à être inséré directement dans ton tableau catalogueLecons.
-
-📘 Texte Jour 4 : La Neuroplasticité et les Mécanismes de l'Excellence
-JavaScript
-{ 
-    "texte": [
-        "La Neuroplasticité et les Mécanismes de l'Excellence",
-        "L'idée que notre cerveau est une entité figée après l'enfance est l'une des erreurs scientifiques les plus persistantes du siècle dernier. En réalité, nous possédons une faculté extraordinaire appelée neuroplasticité. Chaque nouvelle information, chaque compétence acquise et chaque effort de concentration modifie physiquement la structure de nos connexions neuronales. Pour l'apprenant moderne, comprendre ce mécanisme n'est pas seulement une curiosité biologique, c'est un levier stratégique pour atteindre l'excellence.",
-        "L'apprentissage profond, contrairement à la simple mémorisation superficielle, exige une immersion totale. Lorsque nous étudions une langue ou un langage de programmation, nous ne faisons pas qu'emmagasiner des mots ou des symboles ; nous créons de nouveaux sentiers synaptiques. Plus l'effort cognitif est intense, plus ces sentiers deviennent robustes, transformant une tâche initialement complexe en un automatisme fluide. C'est ce que les psychologues appellent l'état de 'Flow', où la barrière entre l'individu et son activité semble s'effacer.",
-        "Cependant, ce processus de transformation nécessite une ressource de plus en plus rare : l'attention soutenue. Dans notre ère de distraction numérique permanente, la capacité à rester focalisé sur un seul objet d'étude pendant une période prolongée est devenue un avantage compétitif majeur. Ceux qui parviennent à isoler leur esprit du tumulte extérieur pour se plonger dans une analyse rigoureuse développent une forme de 'travail profond' (Deep Work) qui est le moteur des plus grandes innovations technologiques et entrepreneuriales.",
-        "Le rôle de l'échec dans cette architecture cérébrale est fondamental. Contrairement à une vision scolaire punitive, l'erreur est un signal biologique nécessaire. Lorsque nous commettons une faute et que nous la corrigeons, notre cerveau renforce la gaine de myéline autour des neurones concernés, augmentant ainsi la vitesse et la précision de l'influx nerveux. L'élève qui ne se trompe jamais est un élève qui n'apprend plus. L'exigence de perfection immédiate est donc un frein à la véritable progression.",
-        "La discipline intervient ici comme le régulateur de cet écosystème mental. Le cerveau est naturellement incliné vers l'économie d'énergie, préférant le confort de l'acquis à l'effort de la nouveauté. Imposer une routine de lecture quotidienne de 30 minutes, comme celle proposée sur cette plateforme, oblige le système cognitif à sortir de sa zone de confort. C'est cette friction volontaire qui génère la croissance intellectuelle et permet de bâtir une autorité réelle dans son domaine d'expertise.",
-        "L'environnement joue également un rôle déterminant dans la qualité de l'apprentissage. Un espace structuré, une gestion du temps millimétrée et une hygiène de vie rigoureuse ne sont pas des contraintes superflues, mais des conditions de possibilité de la pensée haute. La clarté de l'espace physique reflète et favorise la clarté de l'espace mental. Pour l'entrepreneur-tuteur, transmettre cette rigueur est tout aussi important que transmettre le contenu pédagogique lui-même.",
-        "Enfin, la pérennité des connaissances dépend de leur mise en pratique. Une théorie qui n'est pas appliquée est une théorie qui s'étiole. Que ce soit par l'écriture de code, la gestion d'investissements ou l'enseignement, l'action est le seul véritable validateur du savoir. La connaissance devient alors une sagesse pratique, une force capable de transformer non seulement la vie de l'individu, mais aussi son environnement socio-économique.",
-        "Conclusion : Nous sommes les architectes de notre propre cerveau. En choisissant délibérément la difficulté, la persévérance et la rigueur, nous sculptons une intelligence capable de relever les défis les plus complexes. L'odyssée de l'apprentissage est un voyage sans fin où chaque étape franchie révèle de nouveaux horizons de possibilités. La maîtrise n'est pas une destination, c'est un processus continu de dépassement de soi et de conquête de sa propre souveraineté intellectuelle."
-                ] 
-        }
-    ];
-
-    // --- LOGIQUE CORE ---
-    function genererTexte() {
-        const dateRef = new Date();
-        // Utilise le jour du mois pour choisir le texte (1er jour = index 0)
-        const indexLecon = (dateRef.getDate() - 1) % catalogueLecons.length;
-        const leconDuJour = catalogueLecons[indexLecon];
+    <script>
+        let secondes = 0;
+        const timerElement = document.getElementById('timer');
         
-        const contentDiv = document.getElementById('content');
-        contentDiv.innerHTML = "";
-        
-        leconDuJour.texte.forEach(para => {
-            let pTag = document.createElement('div');
-            pTag.className = 'paragraph';
-            pTag.innerText = para;
-            contentDiv.appendChild(pTag);
-        });
-    }
-
-    function demarrer() {
-        const inputNom = document.getElementById('nomEleve');
-        const nom = inputNom.value.trim();
-        
-        if(nom.length < 2) {
-            alert("Veuillez entrer un nom valide.");
-            return;
-        }
-
-        document.getElementById('zone-login').style.display = 'none';
-        document.getElementById('zone-lecture').style.display = 'block';
-        document.getElementById('labelNom').innerText = nom;
-        
-        genererTexte();
-        lancerChrono(1800); // 30 minutes
-    }
-
-    function lancerChrono(temps) {
-        let restant = temps;
-        const timerTag = document.getElementById('timer');
-        const bar = document.getElementById('progressBar');
-        
-        const itv = setInterval(() => {
-            restant--;
-            let m = Math.floor(restant / 60);
-            let s = restant % 60;
-            
-            timerTag.innerText = `${m}:${s < 10 ? '0'+s : s}`;
-            bar.style.width = ((temps - restant) / temps * 100) + "%";
-            
-            if(restant <= 0) {
-                clearInterval(itv);
-                finaliser();
-            }
+        setInterval(() => {
+            secondes++;
+            timerElement.innerText = secondes;
         }, 1000);
-    }
+    </script>
 
-    function finaliser() {
-        document.getElementById('code-final').style.display = 'block';
-        const hash = Math.random().toString(36).substring(7).toUpperCase();
-        document.getElementById('code-text').innerText = `SABER-CERT-${hash}`;
-        document.getElementById('content').style.opacity = "0.3";
-    }
-</script>
 </body>
 </html>
